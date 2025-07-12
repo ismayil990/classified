@@ -23,7 +23,7 @@ export default function PostForm() {
   const [step, setStep] = useState(1);
 const navigate=useNavigate()
   useEffect(() => {
-    axios.get("hhttps://backend-kmti.onrender.com/categories/full")
+    axios.get("https://backend-kmti.onrender.com/categories/full")
       .then(res => setCategories(res.data))
       .catch(err => console.error("Kategoriya alınarkən xəta:", err));
   }, []);
