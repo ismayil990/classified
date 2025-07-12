@@ -23,7 +23,7 @@ export default function PostForm() {
   const [step, setStep] = useState(1);
 const navigate=useNavigate()
   useEffect(() => {
-    axios.get("http://localhost:3001/categories/full")
+    axios.get("hhttps://backend-kmti.onrender.com/categories/full")
       .then(res => setCategories(res.data))
       .catch(err => console.error("Kategoriya alınarkən xəta:", err));
   }, []);
@@ -64,7 +64,7 @@ const navigate=useNavigate()
     if (Object.keys(newErrors).length > 0) return;
 
     try {
-      await axios.post("http://localhost:3001/send-otp", {
+      await axios.post("https://backend-kmti.onrender.com/send-otp", {
         contact: `+994${prefix.slice(1)}${formState.contact}`,
       });
       alert("OTP göndərildi");
@@ -98,7 +98,7 @@ const navigate=useNavigate()
     formData.append("otp", otp);
 
     try {
-      const res = await axios.post("http://localhost:3001/posts", formData, {
+      const res = await axios.post("https://backend-kmti.onrender.com/posts", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     

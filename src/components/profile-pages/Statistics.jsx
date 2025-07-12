@@ -10,7 +10,7 @@ export default function Statistic(){
         if (!token) return;
   
         try {
-          const response = await axios.get("http://localhost:3001/views-stats", {
+          const response = await axios.get("https://backend-kmti.onrender.com/views-stats", {
             headers: {
               Authorization: `Bearer ${token}`,
             },

@@ -12,7 +12,7 @@ export default function CategorySelect({ setCategoryName }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/categories/full")
+    axios.get("https://backend-kmti.onrender.com/categories/full")
       .then((res) => setCategories(res.data))
       .catch((err) => console.error("Kategoriya alınarkən xəta:", err));
   }, []);

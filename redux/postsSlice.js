@@ -7,7 +7,7 @@ export const getPosts = createAsyncThunk(
   async (category, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/posts`,{
+        `https://backend-kmti.onrender.com/posts`,{
             params:category
         }
       );

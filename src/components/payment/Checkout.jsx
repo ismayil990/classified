@@ -32,7 +32,7 @@ export default function CheckoutForm({ postId }) {
 
   try {
     // Payment intent yarat
-    const { data } = await axios.post("http://localhost:3001/create-payment-intent", {
+    const { data } = await axios.post("https://backend-kmti.onrender.com/create-payment-intent", {
       postId,
     });
 

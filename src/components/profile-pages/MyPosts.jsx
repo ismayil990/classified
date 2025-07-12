@@ -12,7 +12,7 @@ export default function Myposts(){
       if (!token) return;
 
       try {
-        const response = await axios.get("http://localhost:3001/my-posts", {
+        const response = await axios.get("https://backend-kmti.onrender.com/my-posts", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
