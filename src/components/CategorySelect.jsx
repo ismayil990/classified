@@ -1,0 +1,120 @@
+import { useEffect, useState } from "react";
+import { CarFront, LaptopMinimal, Smartphone, X,Tally4} from "lucide-react";
+import axios from "axios";
+import { useDispatch, useSelector } from 'react-redux';
+import { openCategorySheet } from "../../redux/slice";
+import { closeCategorySheet } from "../../redux/slice";
+import { changeCategory } from "../../redux/slice";
+export default function CategorySelect({ setCategoryName }) {
+  const [categories, setCategories] = useState([]);
+  const { openCategoryMenu,categoryName } = useSelector((state) => state.category);
+  const [animationClass, setAnimationClass] = useState("animate-slideUp");
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/categories/full")
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.error("Kategoriya alınarkən xəta:", err));
+  }, []);
+
+  // Ekran ölçüsünə görə animasiyanı dəyiş
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setAnimationClass("animate-slideRight");
+      } else {
+        setAnimationClass("animate-slideUp");
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+const handleCategoryChange = (name) => {
+  dispatch(changeCategory({categoryName:name}))
+  dispatch(closeCategorySheet());
+};
+
+  const iconMap = {
+    Telefon: <Smartphone className="text-blue-500" />,
+    Kompuyter: <LaptopMinimal className="text-blue-500" />,
+  };
+
+  if (!openCategoryMenu) return null;
+
+  return (
+    <>
+      {/* Blur overlay */}
+      <div
+        onClick={() => dispatch(closeCategorySheet())}
+        className="fixed inset-0 bg-black/30 backdrop-blur-lg z-40"
+      ></div>
+
+      {/* Bottom sheet */}
+      <div className={`fixed   bottom-0 left-0 right-0 lg:left-0 lg:top-0 lg:h-full lg:w-[300px] lg:rounded-none z-50 bg-white rounded-t-3xl p-4 border-t border-gray-100 transition-transform duration-300 ${animationClass}`}>
+        <div className="flex justify-between items-center mb-4">
+          <p className="font-bold text-lg text-slate-800">Kateqoriya seç</p>
+          <button onClick={() => dispatch(closeCategorySheet())}>
+            <X className="text-slate-600" />
+          </button>
+        </div>
+
+        <div className="flex flex-col gap-2">
+           <button
+              type="button"
+              key={0}
+              onClick={() => handleCategoryChange("Bütün elanlar")}
+              className={`flex items-center gap-2 p-3 rounded-xl transition ${
+                categoryName === "Bütün elanlar" ? "bg-gray-50" : "hover:bg-gray-50"
+              }`}
+            >
+               <span>{<Tally4 className="text-blue-500"/>}</span>
+              <p className="font-medium text-[16px]">Bütün elanlar</p>
+            </button>
+          {categories.map((category) => (
+            <button
+              type="button"
+              key={category.name}
+              onClick={() => handleCategoryChange(category.name)}
+              className={`flex items-center gap-2 p-3 rounded-xl transition ${
+                categoryName === category.name ? "bg-gray-50" : "hover:bg-gray-50"
+              }`}
+            >
+              <span>{iconMap[category.name]}</span>
+              <p className="font-medium text-[16px]">{category.name}</p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Animations */}
+      <style>{`
+        @keyframes slideUp {
+          from {
+            transform: translateY(100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
+        @keyframes slideRight {
+          from {
+            transform: translateX(-100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        .animate-slideUp {
+          animation: slideUp 0.3s ease-out forwards;
+        }
+        .animate-slideRight {
+          animation: slideRight 0.3s ease-out forwards;
+        }
+      `}</style>
+    </>
+  );
+}
