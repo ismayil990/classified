@@ -6,7 +6,7 @@ import Statistic from "./profile-pages/Statistics";
 import Loader from "../ui-components/Loader";
 import Myposts from "./profile-pages/MyPosts";
 
-export default function Profile() {
+export default function UserProfile() {
     const [activeTab,setActiveTab]=useState(1)
     const [user,setUser]=useState([])
     const [loading,setLoading]=useState(true)
