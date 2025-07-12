@@ -42,7 +42,7 @@ export default function SelectCategory({ title, items, onClick, colorMap }) {
           {/* Yüngül overlay */}
           <div
             onClick={() => setOpen(false)}
-            className="hidden max-[599px]:block fixed inset-0 bg-[rgba(0,0,0,0.05)] backdrop-blur-[2px] z-40 transition-all duration-300"
+            className="hidden max-[599px]:block fixed inset-0 bg-[rgba(0,0,0,0.05)] backdrop-black backdrop-blur-[5px] z-40 transition-all duration-300"
           />
 
           {/* Dropdown / Bottom Sheet */}
