@@ -9,7 +9,7 @@ export default function BottomMenu(){
     { id: 'search', label: 'Axtarış', path:"/search", icon: Search },
     { id: 'add', label: 'Elan Ver',path:"/yeni", icon: Plus },
     { id: 'messages', label: 'Sevimlilər',path:"/favorites", icon: Heart },
-    { id: 'profile', label: 'Profil',path:"/user", icon: User }
+    { id: 'profile', label: 'Profil',path:"/dashboard", icon: User }
   ];
 
   return (

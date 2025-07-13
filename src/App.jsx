@@ -35,7 +35,7 @@ function App() {
               path="/dashboard"
               element={
                 <PrivateRoute>
-                  <Dashboard />
+                  <UserProfile />
                 </PrivateRoute>
               }
             />
