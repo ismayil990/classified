@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../context/authContext.jsx';
 import Header from './components/Header';
 import PostForm from './components/Newpost.jsx';
@@ -11,6 +11,9 @@ import UserProfile from './components/Profile.jsx';
 import Profile from './components/Profile.jsx';
 import Fetch from './components/profile-pages/fetchpage.jsx';
 import PaymentPage from './components/payment/PaymentPage.jsx';
+import Favorites from './components/Favorites.jsx';
+import Stores from './components/Stores.jsx';
+import AdvancedSearch from './components/AdvancedSearch.jsx';
 
 // Protected Route komponenti
 function PrivateRoute({ children }) {
@@ -18,10 +21,16 @@ function PrivateRoute({ children }) {
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
+
+  // product detail səhifəsində bottommenu gizlətmək üçün
+
 function App() {
+    const location = useLocation();
+      const hideBottomMenu = (location.pathname.startsWith('/product/'),location.pathname.startsWith('/advanced'));
+
   return (
     <AuthProvider>
-      <BottomMenu/>
+    {!hideBottomMenu && <BottomMenu />}
         <div className='w-full'>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -30,6 +39,9 @@ function App() {
             <Route path="/product/:id" element={<ProductDetail/>} />
             <Route path="/user" element={<UserProfile/>} />
             <Route path="/fetch" element={<Fetch/>} />
+            <Route path="/favorites" element={<Favorites/>} />
+             <Route path="/stores" element={<Stores/>} />
+             <Route path="/advanced" element={<AdvancedSearch/>} />
             <Route path="/payment/:id" element={<PaymentPage/>} />
             <Route
               path="/dashboard"

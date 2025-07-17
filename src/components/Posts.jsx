@@ -4,6 +4,7 @@ import Loader from "../ui-components/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts,clearPosts } from "../../redux/postsSlice";
 
+
 export default function Posts() {
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state) => state.posts);
@@ -84,9 +85,9 @@ export default function Posts() {
   }
 
   return (
-    <div className="flex flex-col gap-[15px] min-h-[100vh] pt-[30px] bg-gray-50 mt-[100px] pb-[100px] p-[5px]">
+    <div className="flex flex-col gap-[15px] min-h-[100vh] pt-[30px] bg-gray-50 mt-[100px] pb-[100px] p-[5px] lg:px-6">
       <div className="flex flex-col gap-[5px]">
-        <h3 className="text-slate-600 pl-[2px] text-md font-medium">{categoryName}</h3>
+        <h3 className="text-slate-400 pl-[4px] text-md font-medium">{categoryName}</h3>
         <div className="w-full bg-gray-50 overflow-hidden mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-[420px]:gap-[3px] gap-[15px] ">
           {posts.map((post) => (
             <PostCard key={post._id} post={post} />

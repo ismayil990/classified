@@ -1,40 +1,88 @@
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 
-export default function Select({ defaultName, data, onClick}) {
+export default function Select({ title, items, onClick, colorMap }) {
   const [open, setOpen] = useState(false);
 
   const handleSelect = (value) => {
-    setOpen(false);
     onClick?.(value);
+    setOpen(false);
   };
 
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [open]);
+
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 599;
 
   return (
-    <div className="flex flex-col gap-[5px]">
+    <div className="relative w-full animate-fadeInUp">
+      {/* Select Header */}
       <div
         onClick={() => setOpen(!open)}
-        className="border-[2px] text-[#666666] text-[15px] border-[#f7f7f7] h-[40px] p-[5px] rounded-[5px] cursor-pointer"
+        className="flex items-center animate-fadeInUp justify-between bg-white border border-gray-200 rounded-2xl px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all duration-200"
       >
-        {defaultName}
+        <span className="font-small">{title}</span>
+        <svg
+          className={`w-4 h-4 text-gray-500 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
       </div>
 
-      <div
-        className={`${
-          open ? "flex flex-col" : "hidden"
-        } noscroll border-[2px] h-[300px] overflow-y-scroll border-[#f7f7f7] p-[5px] rounded-[5px]`}
-      >
-        {data?.map((item, index) => {
-          return (
-            <li
-              key={index}
-              onClick={() => handleSelect(item)}
-              className="text-[#a9a9a9] list-none h-[35px] hover:bg-[#f7f7f7] flex items-center p-[5px] rounded-[5px]"
-            >
-              {item}
-            </li>
-          );
-        })}
-      </div>
+      {/* Dropdown menyu */}
+      {open && (
+        <>
+          {/* Yüngül overlay */}
+          <div
+            onClick={() => setOpen(false)}
+            className="hidden max-[599px]:block fixed inset-0 bg-black/30 backdrop-blur-lg z-50 transition-all duration-300"
+          />
+
+          {/* Dropdown / Bottom Sheet */}
+          <div
+  className={`
+    ${open ? 'block' : 'hidden'}
+    z-50 transition-all duration-300
+    ${isMobile
+      ? 'fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl p-4 max-h-[60vh] overflow-hidden noscroll'
+      : 'absolute mt-4 w-full max-h-[300px] overflow-hidden noscroll p-[5px] bg-white border border-gray-200 rounded-2xl shadow-xl'}
+  `}
+>
+  {/* Üst span */}
+  <div className='w-full min-[643px]:hidden flex justify-center'>
+    <span className='w-[25px] h-[2px] bg-black flex'></span>
+  </div>
+
+  {/* Scroll sahəsi */}
+  <div className="overflow-y-auto noscroll max-h-[250px] ">
+    <ul className="divide-y divide-gray-100">
+      {items.map((item, index) => (
+        <li
+          key={index}
+          onClick={() => handleSelect(item.name)}
+          className="max-[643px]:px-2 px-6 py-3 text-gray-700 hover:bg-blue-50 hover:text-gray-900 cursor-pointer transition-colors duration-150 flex items-center gap-2 rounded-xl"
+        >
+          {colorMap && colorMap[item] && (
+            <div
+              className="w-4 h-4 rounded-full border"
+              style={{ backgroundColor: colorMap[item] }}
+            />
+          )}
+          {item.name}
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+        </>
+      )}
     </div>
   );
 }

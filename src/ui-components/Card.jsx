@@ -1,8 +1,21 @@
+import { useState,useEffect } from "react";
 import { Heart,Gem } from "lucide-react";
 import { Link } from "react-router-dom";
+import { toggleFavorite } from "../../functions/addfavorite";
 
 export default function PostCard({ post }) {
- 
+     const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(storedFavorites);
+  }, []);
+
+  const handleFavoriteClick = (e, id) => {
+    toggleFavorite(e, id);
+    const updatedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    setFavorites(updatedFavorites);
+  };
   return (
     <Link to={`/product/${post._id}`}
      style={{ boxShadow:' 2px 2px 4px rgba(0,0,0,0.1)'}}
@@ -14,13 +27,9 @@ export default function PostCard({ post }) {
           alt={post.title}
           className="w-full h-full object-cover"
         />
-        <button style={{
-                  boxShadow: 
-            
-                  ' 4px 4px 6px rgba(0,0,0,0.1)'
-                }} className=" absolute top-3 right-3 bg-white w-[30px] h-[30px] flex items-center justify-center text-white rounded-full p-2   shadow-lg">
-          <Heart size={30} className="text-gray-500" />
-        </button>
+       
+          <Heart  className={` absolute top-2 right-2  w-[25px] h-[25px] ${favorites.includes(post._id) ? "text-red-600" : "text-gray-500"} `} onClick={(e)=>{handleFavoriteClick(e,post._id)}} fill={favorites.includes(post._id) ? "red" : "slate"} />
+      
         {post.status === "Yeni" ? 
           <span className="absolute z-[1] top-[55%] translate-y-[-50%]  left-0 bg-gradient-to-r from-blue-400 to-blue-500 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
            YENİ
@@ -29,7 +38,7 @@ export default function PostCard({ post }) {
           </span> 
         }
         {post.premium === true ?  <span className="absolute right-2 top-[50%] bg-white text-white text-xs rounded-full p-[3px] font-bold shadow-lg">
-           <Gem size={20} className="text-orange-500"/>
+           <Gem size={20} className="text-orange-500 border-0"/>
           </span> : null}
       </div>
       <div className="p-4 bg-white backdrop-blur-sm">

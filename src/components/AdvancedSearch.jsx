@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import SelectCategory from "../ui-components/SelectCategory";
+import Select from "../ui-components/Select";
 import PageHeader from "../ui-components/PageHeader";
 import Button from "../ui-components/Button";
 import { fieldsConfig } from "../../data/fieldsconfig";
@@ -10,10 +11,10 @@ import Input from "../ui-components/Input";
 import MultiSelectCategory from "../ui-components/MultipleSelect";
 import Textarea from "../ui-components/Textarea";
 import MultiImageUpload from "../ui-components/ImageUpload";
-import { CarFront, LaptopMinimal, Smartphone } from "lucide-react";
+import { CarFront, LaptopMinimal, Smartphone,Undo2 } from "lucide-react";
+
 import PhoneInput from "../ui-components/PhoneInput";
-import { useNavigate } from "react-router-dom";
-import Select from "../ui-components/Select";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function PostForm() {
   const [formState, setFormState] = useState({ category: "", images: [] });
@@ -33,7 +34,6 @@ const navigate=useNavigate()
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
   const models = selectedCategory?.brands.find((b) => b.name === formState.brand)?.models || [];
 
- 
   const handleChange = (field, value) => {
     setFormState((prev) => {
       if (field === "brand") {
@@ -41,12 +41,6 @@ const navigate=useNavigate()
         delete updated.model;
         return updated;
       }
-         if (field === "category") {
-      const updated = { ...prev, category: value };
-      delete updated.brand;
-      delete updated.model;
-      return updated;
-    }
       if (field === "images") {
         return { ...prev, images: value };
       }
@@ -135,13 +129,11 @@ const navigate=useNavigate()
 
   return (
     <div className="flex flex-col gap-10 w-full pb-24 pt-[80px]">
-      <PageHeader title="Yeni elan" />
+    <PageHeader title="Ətraflı axtarış"/>
 
       <div className="w-full flex justify-center">
-        {step === 1 ? (
           <form className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
-         <SelectCategory items={categories.map(cat=>cat.name)} title={formState.category || "Kateqoriya seçin"} onClick={(v) => handleChange("category", v)}/>
-           
+           <SelectCategory items={categories.map(cat=>cat.name)} title="Kateqoriya seçin" onClick={(v) => handleChange("category", v)}/>
             {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
 
             {formState.category && (
@@ -176,26 +168,15 @@ const navigate=useNavigate()
                 })}
 
                 <SelectCategory items={locations} title={formState.city || "Şəhər"} onClick={(v) => handleChange("city", v)} />
-                <Input type="number" placeholder="Qiymət" value={formState.price || ""} onChange={(e) => handleChange("price", e.target.value)} />
-                <Input type="text" placeholder="Elan başlığı" value={formState.post_title || ""} onChange={(e) => handleChange("post_title", e.target.value)} />
-                <Textarea placeholder="Açıqlama" value={formState.description || ""} onChange={(e) => handleChange("description", e.target.value)} />
-                <MultiImageUpload value={formState.images} onChange={(files) => handleChange("images", files)} />
-                <Input type="text" placeholder="Adınız" value={formState.name || ""} onChange={(e) => handleChange("name", e.target.value)} />
-                <PhoneInput prefix={prefix} setPrefix={setPrefix} contact={formState.contact || ""} setContact={(val) => handleChange("contact", val)} />
-                {errors.contact && <p className="text-red-500 text-sm">{errors.contact}</p>}
-                <Input type="email" placeholder="Email" value={formState.email || ""} onChange={(e) => handleChange("email", e.target.value)} />
+              <div className="flex gap-[15px]">
+                  <Input type="number" placeholder="Min qiymət" value={formState.minPrice || ""} onChange={(e) => handleChange("minprice", e.target.value)} />
+                    <Input type="number" placeholder="Max qiymət" value={formState.maxPrice || ""} onChange={(e) => handleChange("maxprice", e.target.value)} />
+              </div>
 
-                <Button text="OTP Göndər" type="button" onClick={sendOtp} />
+                <Button text="Axtar" type="button" onClick={sendOtp} />
               </div>
             )}
           </form>
-        ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
-            <Input type="text" placeholder="OTP kodunu daxil edin" value={otp} onChange={(e) => setOtp(e.target.value)} />
-            {errors.otp && <p className="text-red-500 text-sm">{errors.otp}</p>}
-            <Button text="Elanı Göndər" type="submit" />
-          </form>
-        )}
       </div>
     </div>
   );

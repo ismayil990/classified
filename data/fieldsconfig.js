@@ -46,5 +46,10 @@ export const fieldsConfig = {
   "MediaTek Kompanio",
   "NVIDIA Tegra"] },
   { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
-  ]
+  ],
+  "Televizor": [
+    { name: "make", label: "Marka", type: "select", options: [] },
+    { name: "color", label: "Rəng", type: "select", options: colors },
+     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
+  ],
 };

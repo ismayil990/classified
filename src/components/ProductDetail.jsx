@@ -1,17 +1,37 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams,Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Share2,Phone,User,Mail } from 'lucide-react';
-import { fieldLabels } from "../../data/options";
+import { Share2,Phone,User,Mail,Heart } from 'lucide-react';
 import Loader from "../ui-components/Loader";
 import { IncreaseCallCount } from "../../functions/increaseCallCount";
+import ImageGallery from "../ui-components/ImageGallery";
+import { toggleFavorite } from "../../functions/addfavorite";
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [product,setProduct]=useState(null)
 
+  const [product,setProduct]=useState(null)
+  const [open,setOpen]=useState(false)
+  const navigate=useNavigate()
+ const [favorites, setFavorites] = useState(() => {
+  return JSON.parse(localStorage.getItem("favorites")) || [];
+});
+
+const handleToggleFavorite = (e, id) => {
+  e.preventDefault();
+  let updatedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  if (updatedFavorites.includes(id)) {
+    updatedFavorites = updatedFavorites.filter(item => item !== id);
+  } else {
+    updatedFavorites.push(id);
+  }
+
+  localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  setFavorites(updatedFavorites);
+};
   // Mock data for tech products
   const productFields = [
   { key: "brand", label: "Marka" },
@@ -27,10 +47,9 @@ export default function ProductDetail() {
       .then(res => {
         setProduct(res.data);
        setLoading(false)
-        console.log(res.data)
       })
       .catch(err => {
-        console.error("Məhsul alınarkən xəta:", err);
+        console.error( err);
         setLoading(false);
       });
   }, [id]);
@@ -48,11 +67,7 @@ export default function ProductDetail() {
     setCurrentImageIndex(index);
   };
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    showNotification(isFavorite ? 'Sevimlilərdən silindi' : 'Sevimlilərə əlavə edildi');
-  };
-
+ 
   const shareProduct = () => {
     if (navigator.share) {
       navigator.share({
@@ -74,32 +89,9 @@ export default function ProductDetail() {
 
 
   const goBack = () => {
-    window.history.back();
+    navigate("/");
   };
 
-  const showNotification = (message) => {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      color: white;
-      padding: 16px 24px;
-      border-radius: 12px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
-      z-index: 1000;
-      animation: slideInRight 0.3s ease-out;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-      notification.style.animation = 'slideOutRight 0.3s ease-out';
-      setTimeout(() => notification.remove(), 300);
-    }, 3000);
-  };
 
   if (loading) {
     return (
@@ -200,25 +192,25 @@ export default function ProductDetail() {
       <div className="bg-white/95 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-40">
         <div className="w-full mx-auto px-2 sm:px-2 lg:px-2">
           <div className="flex items-center justify-between h-16">
-            <button
-              onClick={goBack}
+            <Link to="/"
+             
               className="flex items-center space-x-2 text-slate-600 hover:text-blue-600 transition-colors duration-200 bg-none border-0 cursor-pointer font-medium text-base p-2 rounded-xl hover:bg-slate-100"
             >
               <span className="text-xl">←</span>
               <span>Geri</span>
-            </button>
+            </Link>
             <div className="flex items-center space-x-4">
               <button
-                onClick={toggleFavorite}
+                 onClick={(e) => handleToggleFavorite(e, product._id)}
                 className="p-2 text-slate-600 hover:text-red-600 transition-colors duration-200 bg-none border-0 cursor-pointer rounded-xl hover:bg-slate-100"
               >
-                <span className="text-4xl text-gray-400">{isFavorite ? '♥' : '♡'}</span>
+                <Heart className="text-2xl text-gray-400" fill={`${favorites.includes(product._id) ? "red" : "gray"}`}/>
               </button>
               <button
                 onClick={shareProduct}
                 className="p-2 text-slate-600 hover:text-blue-600 transition-colors duration-200 bg-none border-0 cursor-pointer rounded-xl hover:bg-slate-100"
               >
-                <Share2 className="text-xl text-gray-400"/>
+                <Share2 className="text-2xl text-gray-400"/>
               </button>
             </div>
           </div>
@@ -230,7 +222,7 @@ export default function ProductDetail() {
           
           {/* Image Section */}
           <div className="space-y-6">
-            <div className="bg-white overflow-hidden rounded-2xl tech-shadow-lg">
+            <div onClick={()=>{setOpen(true)}} className="bg-white overflow-hidden rounded-2xl tech-shadow-lg">
               <div className="aspect-square relative">
                 <img
                   src={product.images[currentImageIndex]}
@@ -254,7 +246,7 @@ export default function ProductDetail() {
             </div>
             
             {/* Thumbnail Navigation */}
-            <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-thin">
+            <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-thin p-[5px]">
               {product.images.map((img, index) => (
                 <button
                   key={index}
@@ -281,9 +273,11 @@ export default function ProductDetail() {
             {/* Product Title and Badges */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                {product.premium != true ? <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
                   Premium et / 3 azn
-                </span>
+                </span> : <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-bold">
+                  Premium
+                </span>}
               </div>
               
               
@@ -368,7 +362,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
-
+<ImageGallery open={open} images={product.images} setOpen={setOpen}/>
     </div>
   );
 }

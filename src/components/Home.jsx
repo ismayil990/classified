@@ -7,15 +7,19 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import BottomMenu from "./BottomMenu";
 import Posts from "./Posts";
+import SearchResult from "./SearchResult";
 
 export default function Home(){
      const openCategoryMenu = useSelector(
     (state) => state.category.openCategoryMenu
   );
+  const showSearchPage=useSelector(state=>state.posts.showSearchPage)
     return(
         <div className="flex flex-col gap-0">
-            <Header/>
+          {showSearchPage && (<SearchResult/>)}
+            <Header/>         
             <Posts/>
+            <BottomMenu />
              {openCategoryMenu && (<CategorySelect/> )}
         
         </div>

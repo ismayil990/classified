@@ -5,17 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openCategorySheet } from "../../redux/slice";
 import { closeCategorySheet } from "../../redux/slice";
 import { changeCategory } from "../../redux/slice";
+import CircularProgress from '@mui/material/CircularProgress';
+import { getCategories } from "../../redux/slice";
 export default function CategorySelect({ setCategoryName }) {
-  const [categories, setCategories] = useState([]);
-  const { openCategoryMenu,categoryName } = useSelector((state) => state.category);
+  const { openCategoryMenu,categoryName,loading,categories } = useSelector((state) => state.category);
   const [animationClass, setAnimationClass] = useState("animate-slideUp");
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get("https://backend-kmti.onrender.com/categories/full")
-      .then((res) => setCategories(res.data))
-      .catch((err) => console.error("Kategoriya alınarkən xəta:", err));
-  }, []);
+dispatch(getCategories())
+}, []);
 
   // Ekran ölçüsünə görə animasiyanı dəyiş
   useEffect(() => {
@@ -38,7 +37,7 @@ const handleCategoryChange = (name) => {
 
   const iconMap = {
     Telefon: <Smartphone className="text-blue-500" />,
-    Kompuyter: <LaptopMinimal className="text-blue-500" />,
+    Komputer: <LaptopMinimal className="text-blue-500" />,
   };
 
   if (!openCategoryMenu) return null;
@@ -72,19 +71,25 @@ const handleCategoryChange = (name) => {
                <span>{<Tally4 className="text-blue-500"/>}</span>
               <p className="font-medium text-[16px]">Bütün elanlar</p>
             </button>
-          {categories.map((category) => (
-            <button
-              type="button"
-              key={category.name}
-              onClick={() => handleCategoryChange(category.name)}
-              className={`flex items-center gap-2 p-3 rounded-xl transition ${
-                categoryName === category.name ? "bg-gray-50" : "hover:bg-gray-50"
-              }`}
-            >
-              <span>{iconMap[category.name]}</span>
-              <p className="font-medium text-[16px]">{category.name}</p>
-            </button>
-          ))}
+            {loading ? (
+  <div className="flex justify-center p-4">
+    <CircularProgress size={30}/>
+  </div>
+) : (
+  categories.map((category) => (
+    <button
+      type="button"
+      key={category.name}
+      onClick={() => handleCategoryChange(category.name)}
+      className={`flex items-center gap-2 p-3 rounded-xl transition ${
+        categoryName === category.name ? "bg-gray-50" : "hover:bg-gray-50"
+      }`}
+    >
+      <span>{iconMap[category.name]}</span>
+      <p className="font-medium text-[16px]">{category.name}</p>
+    </button>
+  ))
+)}
         </div>
       </div>
 

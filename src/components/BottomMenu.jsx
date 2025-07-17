@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Home, Search, Plus, Heart, User } from 'lucide-react';
+import { Home, Store, Plus, Heart, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 export default function BottomMenu(){
   const [activeTab, setActiveTab] = useState('home');
 
   const menuItems = [
     { id: 'home', label: 'Ana Səhifə', path:"/", icon: Home },
-    { id: 'search', label: 'Axtarış', path:"/search", icon: Search },
+    { id: 'search', label: 'Mağazalar', path:"/stores", icon: Store },
     { id: 'add', label: 'Elan Ver',path:"/yeni", icon: Plus },
     { id: 'messages', label: 'Sevimlilər',path:"/favorites", icon: Heart },
     { id: 'profile', label: 'Profil',path:"/dashboard", icon: User }
