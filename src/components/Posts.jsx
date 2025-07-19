@@ -85,10 +85,10 @@ export default function Posts() {
   }
 
   return (
-    <div className="flex flex-col gap-[15px] min-h-[100vh] pt-[30px] bg-gray-50  pb-[100px] p-[5px] lg:px-6">
+    <div className="flex flex-col gap-[15px] min-h-[100vh] pt-[30px] bg-white  pb-[100px] p-[5px] lg:px-6">
       <div className="flex flex-col gap-[5px]">
         <h3 className="text-slate-400 pl-[4px] text-md font-medium">{categoryName}</h3>
-        <div className="w-full bg-gray-50 overflow-hidden mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-[420px]:gap-[3px] gap-[15px] ">
+        <div className="w-full bg-white overflow-hidden mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-[420px]:gap-[3px] gap-[15px] ">
           {posts.map((post) => (
             <PostCard key={post._id} post={post} />
           ))}

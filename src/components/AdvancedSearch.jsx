@@ -137,11 +137,11 @@ export default function AdvancedSearch() {
   );
 
   return (
-    <div className="w-full pt-[80px] px-2 lg:px-6 bg-gray-50">
+    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white">
       {/* Filter Toggle Button for Mobile */}
       <div className="md:hidden flex justify-end  w-full">
         <button
-          className="w-full flex items-center h-[50px] justify-between bg-white px-4 py-[7px] border-1 border-gray-100 rounded-xl"
+          className="w-full flex items-center h-[50px] justify-between bg-gray-50 px-4 py-[7px] border-1 border-gray-100 rounded-xl"
           onClick={() => setShowFilter(true)}
         >
           <p className="font-medium text-slate-600">Ətraflı axtarış</p>

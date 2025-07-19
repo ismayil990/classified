@@ -18,7 +18,7 @@ export default function PostCard({ post }) {
   };
   return (
     <Link to={`/product/${post._id}`}
-     style={{ boxShadow:' 2px 2px 4px rgba(0,0,0,0.1)'}}
+     
       className={`relative bg-white border-[1px] border-gray-200 rounded-[7px] overflow-hidden hover:shadow-sm hover:scale-105 transition-all duration-300 cursor-pointer`}
     >
       <div className=" w-full max-[450px]:h-[150px] h-[180px] overflow-hidden">
