@@ -36,7 +36,7 @@ const handleSearch = async () => {
         to="/advanced"
         className="flex items-center justify-center w-[42px] h-[42px] bg-gray-50 border-r-[0px] border-[1px] border-gray-200 rounded-l-[7px]"
       >
-        <SlidersHorizontal className="text-blue-600 cursor-pointer" />
+        <SlidersHorizontal className="text-red-800 cursor-pointer" />
       </Link>
 
       <input
@@ -52,7 +52,7 @@ const handleSearch = async () => {
         onClick={handleSearch}
         className="flex items-center justify-center w-[42px] h-[42px] bg-gray-50 border-l-[0px] border-[1px] border-gray-200 rounded-r-[7px]"
       >
-        <Search className="text-blue-600 cursor-pointer" />
+        <Search className="text-red-600 cursor-pointer" />
       </div>
     </div>
   );

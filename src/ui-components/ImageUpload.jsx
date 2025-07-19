@@ -29,7 +29,7 @@ export default function MultiImageUpload({ value = [], onChange, placeholder = "
     <>
       <div
         onClick={handleClick}
-        className="flex items-center justify-start overflow-hidden flex-wrap gap-2 bg-white border border-gray-200 rounded-2xl px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all duration-200"
+        className="flex items-center h-[60px] justify-start overflow-hidden flex-wrap gap-2 bg-white border border-gray-200 rounded-lg px-6  cursor-pointer hover:bg-gray-50 transition-all duration-200"
       >
         <PhotoCameraIcon className="text-gray-400 flex-shrink-0" />
 

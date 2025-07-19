@@ -157,11 +157,6 @@ const navigate=useNavigate()
                       <SelectCategory key={index} items={models} title={formState.model || "Model"} onClick={(v) => handleChange("model", v)} />
                     );
                   }
-                  if (field.name === "supplies") {
-                    return (
-                      <MultiSelectCategory key={index} items={field.options} title={field.label} value={formState[field.name] || []} onChange={(v) => handleChange(field.name, v)} />
-                    );
-                  }
                   if (field.type === "select") {
                     return (
                       <SelectCategory key={index} items={field.options} title={formState[field.name] || field.label} onClick={(v) => handleChange(field.name, v)} {...(field.name === "color" ? { colorMap } : {})} />

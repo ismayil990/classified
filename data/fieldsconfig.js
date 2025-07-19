@@ -6,11 +6,12 @@ export const fieldsConfig = {
     { name: "make", label: "Marka", type: "select", options: [] },
     { name: "model", label: "Model", type: "select", options: [] },
     { name: "ram", label: "RAM", type: "select", options: [ "2 GB","3 GB","4 GB","6 GB","8 GB","12 GB","16 GB","18 GB","24 GB"] },
+    {name:"camera",label:"Kamera",type:"select",options:[ "2/2 mp","5/5 mp","8/5 mp","10/32 mp","12/8 mp","12/10 mp","12/12 mp","13/13 mp","16/16 mp","20/8 mp","24/12 mp","32/10 mp","48/12 mp","50/10 mp","64/32 mp","108/12 mp","200/32 mp",]},
     { name: "color", label: "Rəng", type: "select", options: colors },
     { name: "memory", label: "Yaddaş", type: "select", options: [  "16 GB","32 GB","64 GB","128 GB","256 GB","512 GB","1TB"] },
-     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
+    { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ],
-  "Kompuyter": [
+  "Komputer": [
     { name: "make", label: "Marka", type: "select", options: [] },
     { name: "ram", label: "RAM", type: "select", options: [  
   "4 GB",

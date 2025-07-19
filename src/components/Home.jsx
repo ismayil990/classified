@@ -8,6 +8,7 @@ import { useState } from "react";
 import BottomMenu from "./BottomMenu";
 import Posts from "./Posts";
 import SearchResult from "./SearchResult";
+import AdvancedSearch from "./AdvancedSearch";
 
 export default function Home(){
      const openCategoryMenu = useSelector(
@@ -15,9 +16,9 @@ export default function Home(){
   );
   const showSearchPage=useSelector(state=>state.posts.showSearchPage)
     return(
-        <div className="flex flex-col gap-0">
-          {showSearchPage && (<SearchResult/>)}
-            <Header/>         
+        <div className="flex flex-col gap-[0px]">
+            <Header/>   
+            <AdvancedSearch/>      
             <Posts/>
             <BottomMenu />
              {openCategoryMenu && (<CategorySelect/> )}

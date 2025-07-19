@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function SelectCategory({ title, items, onClick, colorMap }) {
+export default function SelectCategory({ title, items, onClick, colorMap,disabled }) {
   const [open, setOpen] = useState(false);
 
   const handleSelect = (value) => {
@@ -19,11 +19,11 @@ export default function SelectCategory({ title, items, onClick, colorMap }) {
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 599;
 
   return (
-    <div className="relative w-full animate-fadeInUp">
+    <div className="relative w-auto min-w-[10%] animate-fadeInUp">
       {/* Select Header */}
       <div
         onClick={() => setOpen(!open)}
-        className="flex items-center animate-fadeInUp justify-between bg-white border border-gray-200 rounded-2xl  px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all duration-200"
+        className={`flex items-center animate-fadeInUp justify-between h-[60px]  bg-white border border-gray-200 rounded-lg  px-6 py-4 cursor-pointer hover:bg-gray-50 transition-all duration-200`}
       >
         <span className="font-small">{title}</span>
         <svg

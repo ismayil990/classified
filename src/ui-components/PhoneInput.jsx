@@ -8,7 +8,7 @@ export default function PhoneInput({ prefix, setPrefix, contact, setContact }) {
   return (
     <div className="flex  items-center relative">
       <div
-        className="flex items-center bg-gray-50 justify-between border border-gray-200 rounded-2xl rounded-r-[0px] px-4 py-3 cursor-pointer  min-w-[80px]"
+        className="flex items-center bg-gray-50 justify-between border border-gray-200 rounded-lg rounded-r-[0px] px-4 py-3 cursor-pointer  min-w-[80px]"
         onClick={() => setOpen(!open)}
       >
         <span>{prefix}</span>
@@ -16,7 +16,7 @@ export default function PhoneInput({ prefix, setPrefix, contact, setContact }) {
       </div>
 
       {open && (
-        <div className="absolute top-14 left-0 bg-white border border-gray-200 rounded-xl shadow-md w-[80px] z-50">
+        <div className="absolute top-14 left-0 bg-white border border-gray-200 rounded-lg shadow-md w-[80px] z-50">
           {prefixes.map((item) => (
             <div
               key={item}
@@ -45,7 +45,7 @@ export default function PhoneInput({ prefix, setPrefix, contact, setContact }) {
             setContact(val);
           }
         }}
-        className="w-full bg-white border border-gray-200 rounded-2xl rounded-l-[0px] px-4 py-3  focus:outline-none"
+        className="w-full bg-white border border-gray-200 rounded-lg rounded-l-[0px] px-4 py-3  focus:outline-none"
       />
     </div>
   );
