@@ -137,7 +137,7 @@ export default function AdvancedSearch() {
   );
 
   return (
-    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white">
+    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white lg:bg-gray-100 lg:pb-[20px]">
       {/* Filter Toggle Button for Mobile */}
       <div className="md:hidden flex justify-end  w-full">
         <button
@@ -158,7 +158,7 @@ export default function AdvancedSearch() {
 
       {/* Mobile Filter Panel */}
       {showFilter && (
-        <div className="fixed top-0 left-0 w-full h-full z-50 bg-white p-5 overflow-y-auto shadow-lg md:hidden">
+        <div className="fixed top-0 left-0 w-full h-full z-70 bg-white p-5 overflow-y-auto shadow-lg md:hidden">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">Filtr</h2>
             <button onClick={() => setShowFilter(false)} className="text-gray-600">

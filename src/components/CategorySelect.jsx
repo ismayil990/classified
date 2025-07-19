@@ -47,11 +47,11 @@ const handleCategoryChange = (name) => {
       {/* Blur overlay */}
       <div
         onClick={() => dispatch(closeCategorySheet())}
-        className="fixed inset-0 bg-black/30 backdrop-blur-lg z-40"
+        className="fixed inset-0 bg-black/30 backdrop-blur-lg z-50"
       ></div>
 
       {/* Bottom sheet */}
-      <div className={`fixed   bottom-0 left-0 right-0 lg:left-0 lg:top-0 lg:h-full lg:w-[300px] lg:rounded-none z-50 bg-white rounded-t-3xl p-4 border-t border-gray-100 transition-transform duration-300 ${animationClass}`}>
+      <div className={`fixed   bottom-0 left-0 right-0 lg:left-0 lg:top-0 lg:h-full lg:w-[300px] lg:rounded-none z-60 bg-white rounded-t-3xl p-4 border-t border-gray-100 transition-transform duration-300 ${animationClass}`}>
         <div className="flex justify-between items-center mb-4">
           <p className="font-bold text-lg text-slate-800">Kateqoriya seç</p>
           <button onClick={() => dispatch(closeCategorySheet())}>

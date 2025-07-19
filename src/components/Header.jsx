@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { toggleCategorySheet} from "../../redux/slice";
 import categoryIcon from "../assets/category.png";
 import SearchProduct from "../ui-components/SearchProduct";
-
+import { BiCategoryAlt } from "react-icons/bi";
+import { openCategorySheet } from "../../redux/slice";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -46,7 +47,11 @@ export default function Header() {
           <h1 className="text-black font-bold text-2xl max-[400px]:text-xl">Mobi-X</h1>
         </div>
       </div>
+    
 <div className="flex max-[643px]:hidden items-center gap-[15px]">
+         <div onClick={()=>{dispatch(openCategorySheet())}} className="rounded-[7px] flex items-center justify-center p-[8px] cursor-pointer  transition-all duration-300">
+          <BiCategoryAlt className="text-gray-600 w-6 h-6" />
+        </div>
         <Link to="/favorites" className="rounded-[7px] flex items-center justify-center p-[8px] cursor-pointer  transition-all duration-300">
           <Heart className="text-gray-600 w-5 h-5" />
         </Link>
@@ -54,7 +59,7 @@ export default function Header() {
           <User className="text-gray-600 w-5 h-5" />
         </Link>
         <Link to="/yeni">
-          <button className="text-gray-700  rounded-xl px-4 py-2 text-sm font-semibold  transition-all duration-300 hidden sm:flex items-center gap-2">
+          <button className="text-white bg-red-600 rounded-xl px-4 py-2 text-sm font-bold  transition-all duration-300 hidden sm:flex items-center gap-2">
             <Plus className="w-4 h-4" />
             Yeni elan
           </button>

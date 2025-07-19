@@ -71,7 +71,7 @@ const verifyOtp = async () => {
           <button
             onClick={sendOtp}
             disabled={loading}
-            className="bg-blue-500 text-white p-3 rounded-[10px] mt-3"
+            className="bg-red-600 text-white p-3 rounded-[10px] mt-3"
           >
             {loading ? "Göndərilir..." : "OTP Göndər"}
           </button>
@@ -91,7 +91,7 @@ const verifyOtp = async () => {
           <button
             onClick={verifyOtp}
             disabled={loading}
-            className="bg-blue-500 text-white p-2 rounded-[7px]"
+            className="bg-red-600 text-white p-2 rounded-[7px]"
           >
             {loading ? "Yoxlanır..." : "Daxil Ol"}
           </button>

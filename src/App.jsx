@@ -26,7 +26,7 @@ function PrivateRoute({ children }) {
 
 function App() {
     const location = useLocation();
-      const hideBottomMenu = (location.pathname.startsWith('/product/'),location.pathname.startsWith('/advanced'));
+      const hideBottomMenu = (location.pathname.startsWith('/product/'),location.pathname.startsWith('/advanced'),location.pathname.startsWith('/yeni'));
 
   return (
     <AuthProvider>
