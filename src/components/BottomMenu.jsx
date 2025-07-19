@@ -9,8 +9,7 @@ import {
   FaCompass, 
 
 } from 'react-icons/fa';
-
-import { BiCategoryAlt } from "react-icons/bi";
+import { BiSolidCategory } from "react-icons/bi";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { openCategorySheet } from '../../redux/slice';
 import { useDispatch } from 'react-redux';
@@ -64,7 +63,7 @@ const currentPath = location.pathname;
   }}
   className={` flex flex-col gap-[5px] items-center rounded-full transition-all text-gray-400 hover:bg-gray-100`}
 >
-  <BiCategoryAlt className="text-[20px]" />
+  <BiSolidCategory className="text-[20px]" />
   <p className='text-[10px]'>Kataloq</p>
 </button>
         </div>
