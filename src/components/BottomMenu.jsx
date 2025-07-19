@@ -30,42 +30,49 @@ export default function BottomMenu() {
   const [activeTab, setActiveTab] = useState('home');
   
   return (
-    <div className="fixed left-[50%] translate-x-[-50%] bottom-[0px]  w-full  z-[70]">
-      <div className="bg-white  shadow-xl px-2 py-2 border border-gray-100">
+    <div className="fixed left-[50%] translate-x-[-50%] h-[60px] bottom-[0px]  w-full  z-[70]">
+      <div className="bg-white  shadow-xl px-4 py-2 border border-gray-100">
         <div className="flex items-center justify-between ">
           <button 
             onClick={() => setActiveTab('home')}
-            className={`p-2 rounded-full transition-all ${activeTab === 'home' ? 'bg-amber-500 text-white' : 'text-gray-400 hover:bg-gray-100'}`}
+            className={`flex flex-col gap-[5px] items-center rounded-full transition-all ${activeTab === 'home' ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}
           >
-            <FaHome className="text-lg" />
+            <FaHome className="text-[23px]" />
+            <p className='text-[10px]'>Əsas</p>
           </button>
           
           <button 
             onClick={() => setActiveTab('explore')}
-            className={`p-2 rounded-full transition-all ${activeTab === 'explore' ? 'bg-amber-500 text-white' : 'text-gray-400 hover:bg-gray-100'}`}
+            className={` flex flex-col gap-[5px] items-center rounded-full transition-all ${activeTab === 'explore' ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}
           >
-            <FaCompass className="text-lg" />
+            <FaCompass className="text-[23px]" />
+            <p className='text-[10px]'>Sevimlilər</p>
           </button>
           
           <button 
             onClick={() => setActiveTab('add')}
-            className="bg-red-600 text-white p-2 rounded-full shadow-lg transform scale-100 hover:scale-130 transition-all"
+            className="relative text-gray-400  flex flex-col gap-[5px] items-center"
           >
-            <FaPlus className="text-lg" />
+            <div className='absolute top-[-25px] bg-red-600 text-white p-2 flex flex-col items-center  rounded-full shadow-md transform scale-100 hover:scale-130 transition-all'>
+            <FaPlus className="text-[23px]" />
+            </div>
+            <p className='mt-6 text-[10px]'>Yeni elan</p>
           </button>
           
           <button 
             onClick={() => setActiveTab('saved')}
-            className={`p-2 rounded-full transition-all ${activeTab === 'saved' ? 'bg-amber-500 text-white' : 'text-gray-400 hover:bg-gray-100'}`}
+            className={` flex flex-col gap-[5px] items-center rounded-full transition-all ${activeTab === 'saved' ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}
           >
-            <FaBookmark className="text-lg" />
+            <FaUser className="text-[20px]" />
+            <p className='text-[10px]'>Profil</p>
           </button>
           
           <button 
             onClick={() => setActiveTab('profile')}
-            className={`p-2 rounded-full transition-all ${activeTab === 'profile' ? 'bg-amber-500 text-white' : 'text-gray-400 hover:bg-gray-100'}`}
+            className={` flex flex-col gap-[5px] items-center rounded-full transition-all ${activeTab === 'profile' ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}
           >
-            <FaUser className="text-lg" />
+            <FaUser className="text-[20px]" />
+            <p className='text-[10px]'>Menu</p>
           </button>
         </div>
       </div>
