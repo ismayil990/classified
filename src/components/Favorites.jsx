@@ -21,7 +21,7 @@ export default function Favorites() {
 
     setLoading(true);
     axios
-      .get("http://localhost:3001/favorite-posts", {
+      .get("https://backend-kmti.onrender.com/favorite-posts", {
         params: { ids: favoritesIds.join(",") },
       })
       .then((res) => setFavoritesPosts(res.data))
