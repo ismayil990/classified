@@ -38,6 +38,9 @@ const handleToggleFavorite = (e, id) => {
   { key: "model", label: "Model" },
   { key: "memory", label: "Yaddaş" },
   { key: "ram", label: "RAM" },
+  { key: "processor", label: "Prosessor" },
+  { key: "storage_type", label: "Yaddaş növü" },
+   { key: "camera", label: "Kamera" },
   { key: "color", label: "Rəng" },
   { key: "status", label: "Vəziyyəti" },
 ];
@@ -284,14 +287,14 @@ const handleToggleFavorite = (e, id) => {
             </div>
 
             {/* Price Section */}
-            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-3xl ">
+            <div className="bg-white text-white p-6 rounded-3xl ">
               <div className="flex flex-col  items-start justify-between gap-[30px]">
-                <h1 className="text-3xl lg:text-4xl font-bold text-white leading-tight">
+                <h1 className="text-3xl lg:text-4xl font-bold text-black leading-tight">
                 {product.post_title}
               </h1>
                 <div className="flex items-center justify-between w-full">
-                  <p className="text-blue-100 text-sm font-bold mb-1">Qiymət</p>
-                  <p className="text-white text-3xl font-bold">
+                  <p className="text-black text-sm font-bold mb-1">Qiymət</p>
+                  <p className="text-black text-3xl font-bold">
                     {product.price} ₼
                   </p>
                 </div>
@@ -362,6 +365,7 @@ const handleToggleFavorite = (e, id) => {
           </div>
         </div>
       </div>
+      <span onClick={makeCall} className="fixed w-[90%] left-[50%] translate-x-[-50%] bottom-2 p-2 flex items-center justify-center rounded-md font-bold bg-red-600 text-white min-[760px]:hidden">Zəng et</span>
 <ImageGallery open={open} images={product.images} setOpen={setOpen}/>
     </div>
   );
