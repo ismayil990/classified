@@ -50,7 +50,7 @@ const currentPath = location.pathname;
           
           <Link to="/dashboard" 
   
-            className={` flex flex-col gap-[5px] items-center rounded-full transition-all ${ currentPath === '/login' ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}
+            className={` flex flex-col gap-[5px] items-center rounded-full transition-all ${ currentPath === '/login' || currentPath==="/dashboard" ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}
           >
             <FaUser className="text-[20px]" />
             <p className='text-[10px]'>Profil</p>

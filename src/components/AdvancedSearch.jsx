@@ -8,13 +8,18 @@ import Button from "../ui-components/Button";
 import { fieldsConfig } from "../../data/fieldsconfig";
 import { colorMap, locations } from "../../data/options";
 
-import { CarFront, LaptopMinimal, Smartphone, Undo2, SlidersHorizontal } from "lucide-react";
+import { Undo2, SlidersHorizontal } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { searchPosts } from "../../redux/postsSlice";
 
 export default function AdvancedSearch() {
-  const [formState, setFormState] = useState({ category: "", images: [] });
+  const [formState, setFormState] = useState({ category: ""});
   const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
+  const isDisabled = !formState.category;
+  const dispatch=useDispatch()
+
 
   useEffect(() => {
     axios.get("https://backend-kmti.onrender.com/categories/full")
@@ -38,21 +43,14 @@ export default function AdvancedSearch() {
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
-  const sendOtp = async () => {
-    const newErrors = {};
-    if (!formState.category) newErrors.category = "Kateqoriya seçilməyib";
-    if (!formState.city) newErrors.city = "Şəhər seçilməyib";
-    if (!formState.minprice && !formState.maxprice) newErrors.price = "Qiymət aralığı daxil edin";
-
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0) return;
-
-    console.log("Filtr axtarışı:", formState);
-  };
+const sendOtp = async () => {
+ dispatch(searchPosts(formState))
+};
 
   const renderFields = () => (
     <>
       <SelectCategory
+      label="Kateqoriya"
         items={categories.map((cat) => cat.name)}
         title={formState.category || "Kateqoriya seçin"}
         onClick={(v) => handleChange("category", v)}
@@ -65,6 +63,7 @@ export default function AdvancedSearch() {
         if (field.name === "make") {
           return (
             <SelectCategory
+            label="Marka"
               key={index}
               items={brands}
               title={formState.brand || "Marka"}
@@ -76,10 +75,12 @@ export default function AdvancedSearch() {
         if (field.name === "model") {
           return (
             <SelectCategory
+            label="Model"
               key={index}
               items={models}
               title={formState.model || "Model"}
               onClick={(v) => handleChange("model", v)}
+             
             />
           );
         }
@@ -87,11 +88,13 @@ export default function AdvancedSearch() {
         if (field.type === "select") {
           return (
             <SelectCategory
+            label={field.label}
               key={index}
               items={field.options}
               title={formState[field.name] || field.label}
               onClick={(v) => handleChange(field.name, v)}
               {...(field.name === "color" ? { colorMap } : {})}
+            
             />
           );
         }
@@ -104,6 +107,7 @@ export default function AdvancedSearch() {
               placeholder={field.label}
               value={formState[field.name] || ""}
               onChange={(e) => handleChange(field.name, e.target.value)}
+              
             />
           );
         }
@@ -112,6 +116,7 @@ export default function AdvancedSearch() {
       })}
 
       <SelectCategory
+      label="Şəhər"
         items={locations}
         title={formState.city || "Şəhər"}
         onClick={(v) => handleChange("city", v)}
@@ -122,17 +127,17 @@ export default function AdvancedSearch() {
           type="number"
           placeholder="Min qiymət"
           value={formState.minprice || ""}
-          onChange={(e) => handleChange("minprice", e.target.value)}
+          onChange={(e) => handleChange("minprice", Number(e.target.value))}
         />
         <Input
           type="number"
           placeholder="Max qiymət"
           value={formState.maxprice || ""}
-          onChange={(e) => handleChange("maxprice", e.target.value)}
+          onChange={(e) => handleChange("maxprice", Number(e.target.value))}
         />
       </div>
 
-      <Button text="Axtar" type="button" onClick={sendOtp} />
+      <Button text="Axtar" type="button" onClick={()=>{sendOtp()}} />
     </>
   );
 
@@ -160,7 +165,7 @@ export default function AdvancedSearch() {
       {showFilter && (
         <div className="fixed top-0 left-0 w-full h-full z-70 bg-white p-5 overflow-y-auto shadow-lg md:hidden">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Filtr</h2>
+            <h2 className="text-lg font-semibold">Filtrlə</h2>
             <button onClick={() => setShowFilter(false)} className="text-gray-600">
               <Undo2 className="w-5 h-5" />
             </button>

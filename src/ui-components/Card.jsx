@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { Heart,Gem } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toggleFavorite } from "../../functions/addfavorite";
-
+import { RiVipCrownFill } from "react-icons/ri";
 export default function PostCard({ post }) {
      const [favorites, setFavorites] = useState([]);
 
@@ -33,12 +33,12 @@ export default function PostCard({ post }) {
         {post.status === "Yeni" ? 
           <span className="absolute z-[1] top-[55%] translate-y-[-50%]  left-0 bg-gradient-to-r from-blue-400 to-blue-500 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
            YENİ
-          </span> :  <span className="absolute z-[1] top-[55%] translate-y-[-50%]  left-0 bg-gradient-to-r from-orange-400 to-red-500 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
+          </span> :  <span className="absolute z-[1] top-[55%] translate-y-[-50%]  left-0 bg-red-600 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
            İkinci əl
           </span> 
         }
-        {post.premium === true ?  <span className="absolute right-2 top-[50%] bg-white text-white text-xs rounded-full p-[3px] font-bold shadow-lg">
-           <Gem size={20} className="text-orange-500 border-0"/>
+        {post.premium === true ?  <span className="absolute right-2 top-[50%] bg-white text-white w-[40px] flex items-center justify-center text-xs rounded-md p-[3px] font-bold shadow-lg">
+           <RiVipCrownFill size={20} className="text-red-500 border-0"/>
           </span> : null}
       </div>
       <div className="p-4 bg-white backdrop-blur-sm">

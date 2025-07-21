@@ -47,7 +47,7 @@ export default function CheckoutForm({ postId }) {
       alert(result.error.message);
     } else if (result.paymentIntent.status === "succeeded") {
       // Ödəniş uğurlu — premium statusu backend-ə göndər
-      await axios.post("http://localhost:3001/mark-premium", {
+      await axios.post("https://backend-kmti.onrender.com/mark-premium", {
         postId,
       });
 

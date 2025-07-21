@@ -13,16 +13,11 @@ export const fieldsConfig = {
   ],
   "Komputer": [
     { name: "make", label: "Marka", type: "select", options: [] },
-    { name: "ram", label: "RAM", type: "select", options: [  
-  "4 GB",
-  "8 GB",
-  "16 GB",
-  "32 GB",
-  "64 GB",
-  "128 GB"] },
+    { name: "ram", label: "RAM", type: "select", options: [ "2 GB", "3 GB","4 GB","6 GB","8 GB","12 GB","16 GB","24 GB","32 GB","48 GB","64 GB","96 GB","128 GB","192 GB","256 GB","384 GB","512 GB","1 TB",] },
     { name: "color", label: "Rəng", type: "select", options: colors },
-    { name: "memory", label: "Yaddaş", type: "select",options:[64,67,89,90] },
-    { name: "processor", label: "Prosessor", type: "text",options:[  
+    { name: "memory", label: "Yaddaş", type: "number" },
+    { name: "storage_type", label: "Yaddaş növü", type: "select", options: ['SSD','HDD'] },
+    { name: "processor", label: "Prosessor", type: "select",options:[  
   "Intel Core i3",
   "Intel Core i5",
   "Intel Core i7",

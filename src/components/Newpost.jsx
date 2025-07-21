@@ -10,10 +10,11 @@ import Input from "../ui-components/Input";
 import MultiSelectCategory from "../ui-components/MultipleSelect";
 import Textarea from "../ui-components/Textarea";
 import MultiImageUpload from "../ui-components/ImageUpload";
-import { CarFront, LaptopMinimal, Smartphone } from "lucide-react";
+import { CarFront, LaptopMinimal, Loader, Smartphone } from "lucide-react";
 import PhoneInput from "../ui-components/PhoneInput";
 import { useNavigate } from "react-router-dom";
-import Select from "../ui-components/Select";
+import { toast } from "react-toastify";
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function PostForm() {
   const [formState, setFormState] = useState({ category: "", images: [] });
@@ -22,6 +23,7 @@ export default function PostForm() {
   const [prefix, setPrefix] = useState("050");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
+  const [loading,setLoading]=useState(false)
 const navigate=useNavigate()
   useEffect(() => {
     axios.get("https://backend-kmti.onrender.com/categories/full")
@@ -33,27 +35,46 @@ const navigate=useNavigate()
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
   const models = selectedCategory?.brands.find((b) => b.name === formState.brand)?.models || [];
 
- 
-  const handleChange = (field, value) => {
-    setFormState((prev) => {
-      if (field === "brand") {
-        const updated = { ...prev, brand: value };
-        delete updated.model;
-        return updated;
-      }
-         if (field === "category") {
-      const updated = { ...prev, category: value };
+ const handleChange = (field, value) => {
+  setFormState((prev) => {
+    let updated = { ...prev };
+
+    if (field === "category") {
+      updated.category = value;
       delete updated.brand;
       delete updated.model;
-      return updated;
-    }
-      if (field === "images") {
-        return { ...prev, images: value };
+      updated.post_title = ""; // Reset başlıq
+    } else if (field === "brand") {
+      updated.brand = value;
+      delete updated.model;
+
+      // Telefon kateqoriyası üçün avtomatik başlıq
+      if (prev.category === "Telefon" && value && prev.model) {
+        updated.post_title = `${value} ${prev.model}`;
+      } else if (prev.category === "Telefon") {
+        updated.post_title = "";
       }
-      return { ...prev, [field]: value };
-    });
-    setErrors((prev) => ({ ...prev, [field]: "" }));
-  };
+
+    } else if (field === "model") {
+      updated.model = value;
+
+      if (prev.category === "Telefon" && prev.brand && value) {
+        updated.post_title = `${prev.brand} ${value}`;
+      } else if (prev.category === "Telefon") {
+        updated.post_title = "";
+      }
+
+    } else if (field === "images") {
+      updated.images = value;
+    } else {
+      updated[field] = value;
+    }
+
+    return updated;
+  });
+
+  setErrors((prev) => ({ ...prev, [field]: "" }));
+};
 
   const handleCategoryChange = (categoryId) => {
     setFormState({ category: categoryId, images: [] });
@@ -61,9 +82,11 @@ const navigate=useNavigate()
   };
 
   const sendOtp = async () => {
+    setLoading(true)
     const newErrors = {};
     if (!formState.category) newErrors.category = "Kateqoriya seçilməyib";
-    if (!formState.post_title) newErrors.post_title = "Başlıq boş ola bilməz";
+    if (!formState.post_title && formState.category !== "Telefon")
+    newErrors.post_title = "Başlıq boş ola bilməz";
     if (!formState.price) newErrors.price = "Qiymət boş ola bilməz";
     if (!formState.description) newErrors.description = "Açıqlama boş ola bilməz";
     if (!formState.contact) newErrors.contact = "Nömrə daxil edin";
@@ -75,57 +98,58 @@ const navigate=useNavigate()
       await axios.post("https://backend-kmti.onrender.com/send-otp", {
         contact: `+994${prefix.slice(1)}${formState.contact}`,
       });
-      alert("OTP göndərildi");
+      toast.success("Təsdiq kodu nömrəyə göndərildi");
       setStep(2);
+      setLoading(false)
     } catch (error) {
-      console.error("OTP göndərmə xətası:", error);
-      alert("OTP göndərilərkən xəta baş verdi.");
+setLoading(false)
+      toast.error("OTP göndərilərkən xəta baş verdi.");
     }
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    setLoading(true)
+  e.preventDefault();
 
-    if (!otp) {
-      setErrors({ otp: "OTP kodunu daxil edin" });
-      return;
+  if (!otp) {
+    setErrors({ otp: "OTP kodunu daxil edin" });
+    return;
+  }
+
+  const formData = new FormData();
+
+  Object.keys(formState).forEach((key) => {
+    if (key === "images") {
+      formState.images.forEach((file) => formData.append("images", file));
+    } else if (key === "contact") {
+      formData.append("contact", `+994${prefix.slice(1)}${formState.contact}`);
+    } else if (key === "price") {
+      // Price'ı burada Number-a çeviririk, amma FormData-da hər şey string olur, buna görə backend-də də çevirmə olmalıdır
+      formData.append("price", formState.price ? formState.price.toString() : "");
+    } else if (Array.isArray(formState[key])) {
+      formState[key].forEach((val) => formData.append(key, val));
+    } else {
+      formData.append(key, formState[key]);
     }
+  });
 
-    const formData = new FormData();
-    Object.keys(formState).forEach((key) => {
-      if (key === "images") {
-        formState.images.forEach((file) => formData.append("images", file));
-      } else if (key === "contact") {
-        formData.append("contact", `+994${prefix.slice(1)}${formState.contact}`);
-      } else if (Array.isArray(formState[key])) {
-        formState[key].forEach((val) => formData.append(key, val));
-      } else {
-        formData.append(key, formState[key]);
-      }
+  formData.append("otp", otp);
+
+  try {
+    const res = await axios.post("https://backend-kmti.onrender.com/posts", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
     });
-    formData.append("otp", otp);
 
-    try {
-      const res = await axios.post("https://backend-kmti.onrender.com/posts", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-    
-      alert("Elan göndərildi!");
-      navigate(`/product/${res.data.post_id}`, {
-  state: { toastMessage: "Elan uğurla əlavə olundu!" },
-});
-    } catch (error) {
-      console.error("Göndərmə xətası:", error);
-      alert("Elan göndərilərkən xəta baş verdi.",{
-  position: "top-center",
-  autoClose: 5000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: false,
-  toastClassName: "bg-green-600 text-white rounded-[7px]",
-});
-    }
-  };
+    toast.success("Elan göndərildi!");
+    setLoading(false)
+    navigate(`/product/${res.data.post_id}`, {
+      state: { toastMessage: "Elan uğurla əlavə olundu!" },
+    });
+  } catch (error) {
+    setLoading(false)
+    toast.error("Elan göndərilərkən xəta baş verdi.");
+  }
+};
 
   const iconMap = {
     Telefon: <Smartphone className="text-blue-500" />,
@@ -140,7 +164,7 @@ const navigate=useNavigate()
       <div className="w-full flex justify-center">
         {step === 1 ? (
           <form className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
-         <SelectCategory items={categories.map(cat=>cat.name)} title={formState.category || "Kateqoriya seçin"} onClick={(v) => handleChange("category", v)}/>
+         <SelectCategory label="Kateqoriya seçin" items={categories.map(cat=>cat.name)} title={formState.category || "Kateqoriya seçin"} onClick={(v) => handleChange("category", v)}/>
            
             {errors.category && <p className="text-red-500 text-sm">{errors.category}</p>}
 
@@ -149,30 +173,44 @@ const navigate=useNavigate()
                 {fieldsConfig[selectedCategory?.name]?.map((field, index) => {
                   if (field.name === "make") {
                     return (
-                      <SelectCategory key={index} items={brands} title={formState.brand || "Marka"} onClick={(v) => handleChange("brand", v)} />
+                      <SelectCategory label="Marka" key={index} items={brands} title={formState.brand || "Marka"} onClick={(v) => handleChange("brand", v)} />
                     );
                   }
                   if (field.name === "model") {
                     return (
-                      <SelectCategory key={index} items={models} title={formState.model || "Model"} onClick={(v) => handleChange("model", v)} />
+                      <SelectCategory label="Model" key={index} items={models} title={formState.model || "Model"} onClick={(v) => handleChange("model", v)} />
                     );
                   }
                   if (field.type === "select") {
                     return (
-                      <SelectCategory key={index} items={field.options} title={formState[field.name] || field.label} onClick={(v) => handleChange(field.name, v)} {...(field.name === "color" ? { colorMap } : {})} />
+                      <SelectCategory label={field.label} key={index} items={field.options} title={formState[field.name] || field.label} onClick={(v) => handleChange(field.name, v)} {...(field.name === "color" ? { colorMap } : {})} />
                     );
                   }
                   if (field.type === "text") {
                     return (
                       <Input key={index} type="text" placeholder={field.label} value={formState[field.name] || ""} onChange={(e) => handleChange(field.name, e.target.value)} />
                     );
+                  };
+                    if (field.type === "number") {
+                    return (
+                      <Input key={index} type="number" placeholder={field.label} value={formState[field.name] || ""} onChange={(e) => handleChange(field.name, e.target.value)} />
+                    );
                   }
                   return null;
                 })}
 
-                <SelectCategory items={locations} title={formState.city || "Şəhər"} onClick={(v) => handleChange("city", v)} />
-                <Input type="number" placeholder="Qiymət" value={formState.price || ""} onChange={(e) => handleChange("price", e.target.value)} />
-                <Input type="text" placeholder="Elan başlığı" value={formState.post_title || ""} onChange={(e) => handleChange("post_title", e.target.value)} />
+                <SelectCategory label="Şəhər" items={locations} title={formState.city || "Şəhər"} onClick={(v) => handleChange("city", v)} />
+                <Input type="number" placeholder="Qiymət" value={formState.price || ""} onChange={(e) => handleChange("price", Number(e.target.value))} />
+      {(formState.category !== "Telefon" ||
+  formState.brand === "Digər" ||
+  formState.model === "Digər") ? (
+  <Input
+    type="text"
+    placeholder="Elan başlığı"
+    value={formState.post_title || ""}
+    onChange={(e) => handleChange("post_title", e.target.value)}
+  />
+) : null}
                 <Textarea placeholder="Açıqlama" value={formState.description || ""} onChange={(e) => handleChange("description", e.target.value)} />
                 <MultiImageUpload value={formState.images} onChange={(files) => handleChange("images", files)} />
                 <Input type="text" placeholder="Adınız" value={formState.name || ""} onChange={(e) => handleChange("name", e.target.value)} />
@@ -180,7 +218,7 @@ const navigate=useNavigate()
                 {errors.contact && <p className="text-red-500 text-sm">{errors.contact}</p>}
                 <Input type="email" placeholder="Email" value={formState.email || ""} onChange={(e) => handleChange("email", e.target.value)} />
 
-                <Button text="OTP Göndər" type="button" onClick={sendOtp} />
+                <Button text={loading ? <CircularProgress size={15} className="text-white"/> : "Elanı göndər"} type="button" onClick={sendOtp} />
               </div>
             )}
           </form>
@@ -188,7 +226,7 @@ const navigate=useNavigate()
           <form onSubmit={handleSubmit} className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
             <Input type="text" placeholder="OTP kodunu daxil edin" value={otp} onChange={(e) => setOtp(e.target.value)} />
             {errors.otp && <p className="text-red-500 text-sm">{errors.otp}</p>}
-            <Button text="Elanı Göndər" type="submit" />
+            <Button text={loading === true ? <CircularProgress size={15} className="text-white"/> :"Təsdiqlə"} type="submit" />
           </form>
         )}
       </div>

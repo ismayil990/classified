@@ -21,13 +21,12 @@ export const getPosts = createAsyncThunk(
 
 export const searchPosts = createAsyncThunk(
   "posts/search",
-  async (query, { rejectWithValue }) => {
+  async (formState, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`https://backend-kmti.onrender.com/search?q=${query}`);
-      console.log(query)
-      return response.data;
+      const res = await axios.post("https://backend-kmti.onrender.com/search-advanced", formState);
+      return res.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Axtarış xətası baş verdi.");
+      return rejectWithValue(error.response?.data || "Axtarış zamanı xəta baş verdi.");
     }
   }
 );

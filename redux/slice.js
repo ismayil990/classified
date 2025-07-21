@@ -2,6 +2,7 @@ import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
 import { categories } from '../data/options';
 import axios from 'axios';
 import AdvancedSearch from '../src/components/AdvancedSearch';
+import { BiBody } from 'react-icons/bi';
 
 export const getCategories = createAsyncThunk(
   "category/getCategories",
@@ -20,6 +21,7 @@ const initialState = {
   categoryName:"Bütün elanlar",
   categories:[],
   loading:true,
+ menuBar:false,
 };
 
 export const categorySlice = createSlice({
@@ -40,7 +42,15 @@ export const categorySlice = createSlice({
     changeCategory:(state,action)=>{
       state.categoryName=action.payload.categoryName
       console.log(action.payload.categoryName)
-    }
+    },
+    openMenu:(state)=>{
+      state.menuBar=true;
+      document.body.style.overflow="hidden"
+    },
+      closeMenu:(state)=>{
+      state.menuBar=false
+    },
+   
   },
    extraReducers: (builder) => {
       builder
@@ -60,6 +70,6 @@ export const categorySlice = createSlice({
     },
 });
 
-export const { openCategorySheet,closeCategorySheet,toggleCategorySheet,changeCategory} = categorySlice.actions;
+export const { openCategorySheet,closeCategorySheet,toggleCategorySheet,changeCategory,openMenu,closeMenu} = categorySlice.actions;
 
 export default categorySlice.reducer;

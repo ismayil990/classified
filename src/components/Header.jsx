@@ -6,7 +6,7 @@ import { toggleCategorySheet} from "../../redux/slice";
 import categoryIcon from "../assets/category.png";
 import SearchProduct from "../ui-components/SearchProduct";
 import { BiCategoryAlt } from "react-icons/bi";
-import { openCategorySheet } from "../../redux/slice";
+import { openCategorySheet,openMenu } from "../../redux/slice";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ export default function Header() {
     >
       <div className="flex items-center gap-5 max-[643px]:w-full max-[643px]:justify-between">
         <div className="flex items-center gap-4">
-          <div className="w-9 h-9 rounded-[5px] flex items-center justify-center ">
+          <div onClick={()=>{dispatch(openMenu())}} className="w-9 h-9 rounded-[5px] flex items-center justify-center ">
             <Menu className="text-black w-6 h-6" />
           </div>
           <h1 className="text-black font-bold text-2xl max-[400px]:text-xl">Mobi-X</h1>

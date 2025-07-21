@@ -14,6 +14,8 @@ import PaymentPage from './components/payment/PaymentPage.jsx';
 import Favorites from './components/Favorites.jsx';
 import Stores from './components/Stores.jsx';
 import AdvancedSearch from './components/AdvancedSearch.jsx';
+import About from './components/About.jsx';
+import Terms from './components/Terms.jsx';
 
 // Protected Route komponenti
 function PrivateRoute({ children }) {
@@ -26,7 +28,13 @@ function PrivateRoute({ children }) {
 
 function App() {
     const location = useLocation();
-      const hideBottomMenu = (location.pathname.startsWith('/product/'),location.pathname.startsWith('/advanced'),location.pathname.startsWith('/yeni'));
+     const hideBottomMenu =
+  location.pathname.startsWith('/product/') ||
+  location.pathname.startsWith('/advanced') ||
+  location.pathname.startsWith('/yeni') ||
+  location.pathname.startsWith('/haqqimizda') ||
+  location.pathname.startsWith('/qaydalar');
+
 
   return (
     <AuthProvider>
@@ -42,6 +50,8 @@ function App() {
             <Route path="/favorites" element={<Favorites/>} />
              <Route path="/stores" element={<Stores/>} />
              <Route path="/advanced" element={<AdvancedSearch/>} />
+             <Route path='/haqqimizda' element={<About/>}/>
+             <Route path='/qaydalar' element={<Terms/>}/>
             <Route path="/payment/:id" element={<PaymentPage/>} />
             <Route
               path="/dashboard"
