@@ -18,7 +18,7 @@ export default function UserProfile() {
       if (!token) return;
 
       try {
-        const response = await axios.get("http://localhost:3001/profile", {
+        const response = await axios.get("https://backend-kmti.onrender.com/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
