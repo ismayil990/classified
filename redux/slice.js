@@ -5,13 +5,20 @@ import AdvancedSearch from '../src/components/AdvancedSearch';
 import { BiBody } from 'react-icons/bi';
 
 export const getCategories = createAsyncThunk(
-  "category/getCategories",
-  async (arg,{ rejectWithValue }) => {
+  'category/getCategories',
+  async (_, { getState, rejectWithValue }) => {
+    const state = getState();
+
+    // Əgər artıq çəkilibsə, API çağırma
+    if (state.category.categories.length > 0) {
+      return rejectWithValue("Already loaded");
+    }
+
     try {
-      const response = await axios.get(`https://backend-kmti.onrender.com/categories/full`);
+      const response = await axios.get("https://backend-kmti.onrender.com/categories");
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data || "Xəta baş verdi");
     }
   }
 );

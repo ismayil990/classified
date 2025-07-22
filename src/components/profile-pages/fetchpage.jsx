@@ -6,7 +6,7 @@ export default function Fetch(){
     fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "HTTP-Referer": "https://your-site.com",
         "X-Title": "Your Site Title",
         "Content-Type": "application/json"
@@ -16,14 +16,14 @@ export default function Fetch(){
         messages: [
           {
             role: "user",
-            content: "Search the current second-hand price for an iPhone 12 in Azerbaijan by checking sites like kontakt.az, irshad.az, bakuelectronics.az, umico.az and similar. Return only the estimated average price in Azerbaijani Manat (₼) as a number without any text or symbols."
+            content: "Lenovo essential əsas xüsusiyyətlərin yaz"
           }
         ]
       })
     })
     .then(res => res.json())
     .then(data => {
-      console.log("AI Cevap:", data.choices[0].message.content);
+      console.log("AI Cevap:", data?.choices[0].message.content);
     })
     .catch(err => {
       console.error("Hata:", err);

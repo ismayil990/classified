@@ -16,10 +16,11 @@ export default function Home(){
     (state) => state.category.openCategoryMenu
   );
     const {menuBar}=useSelector(state=>state.category)
-  const showSearchPage=useSelector(state=>state.posts.showSearchPage)
+  const {showSearchPage}=useSelector(state=>state.posts)
     return(
         <div className="flex flex-col gap-[0px]">
           {menuBar && <Menu/>}
+          {showSearchPage && <SearchResult/>}
             <Header/>   
             <AdvancedSearch/>      
             <Posts/>

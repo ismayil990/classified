@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // ✅ Parametrli API çağırışı
 export const getPosts = createAsyncThunk(
@@ -22,6 +23,14 @@ export const getPosts = createAsyncThunk(
 export const searchPosts = createAsyncThunk(
   "posts/search",
   async (formState, { rejectWithValue }) => {
+    // formState boşdursa və ya dəyərlərdən heç biri dolu deyilsə
+    const hasValidValue = Object.values(formState).some(value => value !== "" && value !== null && value !== undefined);
+
+    if (!hasValidValue) {
+      toast.error("Zəhmət olmasa axtarış kriteriyası daxil edin.");
+      return rejectWithValue("Boş axtarış göndərilə bilməz.");
+    }
+
     try {
       const res = await axios.post("https://backend-kmti.onrender.com/search-advanced", formState);
       return res.data;
@@ -30,6 +39,7 @@ export const searchPosts = createAsyncThunk(
     }
   }
 );
+
 
 
 const postsSlice = createSlice({
@@ -79,6 +89,11 @@ closeSearch:(state) => {
     .addCase(searchPosts.fulfilled, (state, action) => {
       state.loading = false;
       state.searchResults = action.payload; 
+      if(action.payload.length <= 0){
+        toast.info("Nəticə tapılmadı")
+      }else{
+        state.showSearchPage=true
+      }
       console.log(action.payload)
       console.log(state.searchResults)
      

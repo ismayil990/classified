@@ -91,8 +91,8 @@ const handleToggleFavorite = (e, id) => {
   };
 
 
-  const goBack = () => {
-    navigate("/");
+   const handlePremiumClick = (id) => {
+    navigate(`/payment/${id}`);
   };
 
 
@@ -276,7 +276,7 @@ const handleToggleFavorite = (e, id) => {
             {/* Product Title and Badges */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                {product.premium != true ? <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                {product.premium != true ? <span onClick={()=>{handlePremiumClick(product._id)}} className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
                   Premium et / 3 azn
                 </span> : <span className="bg-gradient-to-r from-orange-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-bold">
                   Premium
@@ -314,7 +314,7 @@ const handleToggleFavorite = (e, id) => {
       <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
   {productFields.map(({ key, label }) => (
     product[key] ? (
-      <div key={key} className="bg-slate-50 p-4 rounded-2xl border-l-[2px] border-blue-600">
+      <div key={key} className="flex justify-between bg-slate-50 p-4 rounded-xl border-l-[2px] border-blue-600">
         <p className="text-slate-600 text-sm font-medium">{label}</p>
         <p className="text-slate-800 font-bold">{product[key]}</p>
       </div>

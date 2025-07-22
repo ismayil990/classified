@@ -24,12 +24,14 @@ export default function PostForm() {
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
   const [loading,setLoading]=useState(false)
+
 const navigate=useNavigate()
   useEffect(() => {
     axios.get("https://backend-kmti.onrender.com/categories/full")
       .then(res => setCategories(res.data))
       .catch(err => console.error("Kategoriya alınarkən xəta:", err));
   }, []);
+
 
   const selectedCategory = categories.find((cat) => cat.name === formState.category);
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
