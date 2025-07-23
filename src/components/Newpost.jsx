@@ -15,6 +15,7 @@ import PhoneInput from "../ui-components/PhoneInput";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CircularProgress from '@mui/material/CircularProgress';
+import HybridSelect from "../ui-components/HybridSelect";
 
 export default function PostForm() {
   const [formState, setFormState] = useState({ category: "", images: [] });
@@ -37,7 +38,13 @@ const navigate=useNavigate()
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
   const models = selectedCategory?.brands.find((b) => b.name === formState.brand)?.models || [];
 
- const handleChange = (field, value) => {
+
+  const isAutoTitleCategory = (cat) => {
+  // Avtomatik başlıq qurmaq istədiyin kateqoriyaları əlavə et
+  return cat === "Smartfon" || cat === "Noutbuk";
+};
+
+const handleChange = (field, value) => {
   setFormState((prev) => {
     let updated = { ...prev };
 
@@ -50,22 +57,23 @@ const navigate=useNavigate()
       updated.brand = value;
       delete updated.model;
 
-      // Telefon kateqoriyası üçün avtomatik başlıq
-      if (prev.category === "Telefon" && value && prev.model) {
-        updated.post_title = `${value} ${prev.model}`;
-      } else if (prev.category === "Telefon") {
-        updated.post_title = "";
+      if (isAutoTitleCategory(prev.category)) {
+        if (value && prev.model) {
+          updated.post_title = `${value} ${prev.model}`;
+        } else {
+          updated.post_title = "";
+        }
       }
-
     } else if (field === "model") {
       updated.model = value;
 
-      if (prev.category === "Telefon" && prev.brand && value) {
-        updated.post_title = `${prev.brand} ${value}`;
-      } else if (prev.category === "Telefon") {
-        updated.post_title = "";
+      if (isAutoTitleCategory(prev.category)) {
+        if (prev.brand && value) {
+          updated.post_title = `${prev.brand} ${value}`;
+        } else {
+          updated.post_title = "";
+        }
       }
-
     } else if (field === "images") {
       updated.images = value;
     } else {
@@ -180,9 +188,10 @@ setLoading(false)
                   }
                   if (field.name === "model") {
                     return (
-                      <SelectCategory label="Model" key={index} items={models} title={formState.model || "Model"} onClick={(v) => handleChange("model", v)} />
+                      <HybridSelect label="Model" key={index} options={models} title={formState.model || "Model"} onChange={(v) => handleChange("model", v)} />
                     );
                   }
+              
                   if (field.type === "select") {
                     return (
                       <SelectCategory label={field.label} key={index} items={field.options} title={formState[field.name] || field.label} onClick={(v) => handleChange(field.name, v)} {...(field.name === "color" ? { colorMap } : {})} />
@@ -203,16 +212,6 @@ setLoading(false)
 
                 <SelectCategory label="Şəhər" items={locations} title={formState.city || "Şəhər"} onClick={(v) => handleChange("city", v)} />
                 <Input type="number" placeholder="Qiymət" value={formState.price || ""} onChange={(e) => handleChange("price", Number(e.target.value))} />
-      {(formState.category !== "Telefon" ||
-  formState.brand === "Digər" ||
-  formState.model === "Digər") ? (
-  <Input
-    type="text"
-    placeholder="Elan başlığı"
-    value={formState.post_title || ""}
-    onChange={(e) => handleChange("post_title", e.target.value)}
-  />
-) : null}
                 <Textarea placeholder="Açıqlama" value={formState.description || ""} onChange={(e) => handleChange("description", e.target.value)} />
                 <MultiImageUpload value={formState.images} onChange={(files) => handleChange("images", files)} />
                 <Input type="text" placeholder="Adınız" value={formState.name || ""} onChange={(e) => handleChange("name", e.target.value)} />

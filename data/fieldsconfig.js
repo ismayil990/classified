@@ -2,7 +2,7 @@ import { colors } from "./options";
 
 
 export const fieldsConfig = {
-  "Telefon": [
+  "Smartfon": [
     { name: "make", label: "Marka", type: "select", options: [] },
     { name: "model", label: "Model", type: "select", options: [] },
     { name: "ram", label: "RAM", type: "select", options: [ "2 GB","3 GB","4 GB","6 GB","8 GB","12 GB","16 GB","18 GB","24 GB"] },
@@ -10,7 +10,7 @@ export const fieldsConfig = {
     { name: "memory", label: "Yaddaş", type: "select", options: [  "16 GB","32 GB","64 GB","128 GB","256 GB","512 GB","1TB"] },
     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ],
-  "Komputer": [
+  "Noutbuk": [
     { name: "make", label: "Marka", type: "select", options: [] },
      { name: "model", label: "Model", type: "select", options: [] },
     { name: "ram", label: "RAM", type: "select", options: [ "2 GB", "3 GB","4 GB","6 GB","8 GB","12 GB","16 GB","24 GB","32 GB","48 GB","64 GB","96 GB","128 GB","192 GB","256 GB","384 GB","512 GB","1 TB",] },
