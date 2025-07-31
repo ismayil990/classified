@@ -15,7 +15,7 @@ export const getCategories = createAsyncThunk(
     }
 
     try {
-      const response = await axios.get("https://backend-kmti.onrender.com/categories");
+      const response = await axios.get("http://localhost:3001/categories");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Xəta baş verdi");

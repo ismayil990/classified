@@ -8,7 +8,7 @@ export const getPosts = createAsyncThunk(
   async (category, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `https://backend-kmti.onrender.com/posts`,{
+        `http://localhost:3001/posts`,{
             params:category
         }
       );
@@ -23,7 +23,6 @@ export const getPosts = createAsyncThunk(
 export const searchPosts = createAsyncThunk(
   "posts/search",
   async (formState, { rejectWithValue }) => {
-    // formState boşdursa və ya dəyərlərdən heç biri dolu deyilsə
     const hasValidValue = Object.values(formState).some(value => value !== "" && value !== null && value !== undefined);
 
     if (!hasValidValue) {
@@ -32,7 +31,7 @@ export const searchPosts = createAsyncThunk(
     }
 
     try {
-      const res = await axios.post("https://backend-kmti.onrender.com/search-advanced", formState);
+      const res = await axios.post("http://localhost:3001/search-advanced", formState);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Axtarış zamanı xəta baş verdi.");

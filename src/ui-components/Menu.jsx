@@ -1,55 +1,87 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaInfoCircle, FaGavel, FaArrowLeft,FaWhatsapp } from 'react-icons/fa';
+import { FaInfoCircle, FaGavel, FaTimes, FaWhatsapp } from 'react-icons/fa';
 import { IoIosMailUnread } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { closeMenu } from '../../redux/slice';
+import axios from 'axios';
+import DarkModeToggle from '../components/SwitchDark';
 
-export default function Menu() {
+export default function CardBasedMenu() {
   const { menuBar } = useSelector((state) => state.category);
+  const [info, setInfo] = useState();
   const location = useLocation();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
 
   const menuItems = [
     { path: '/haqqimizda', label: 'Haqqımızda', icon: <FaInfoCircle /> },
-    { path: '/qaydalar', label: 'Qaydalar', icon: <FaGavel /> },
+    { path: '/qaydalar', label: 'Qaydalar', icon: <FaGavel /> }
+    
   ];
+
+  useEffect(() => {
+    const getInfo = async () => {
+      try {
+        const res = await axios.get("http://localhost:3001/siteinfo");
+        setInfo(res.data);
+        console.log(res.data.number);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getInfo();
+  }, []);
 
   if (!menuBar) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex">
-      {/* Backdrop */}
-      <div onClick={()=>dispatch(closeMenu())} className="fixed inset-0 bg-black/30 backdrop-blur-sm" />
-
-      {/* Sidebar */}
-      <div className="relative z-[101] w-64 p-2 bg-white border-r border-gray-200 h-full shadow-md">
-     <div className='flex justify-between items-center'>
-         <h2 className="text-lg font-semibold mb-4 text-gray-700">Menu</h2>
-        <FaArrowLeft onClick={()=>dispatch(closeMenu())} className="text-lg font-semibold mb-4 text-gray-700"/>
-     </div>
-        <ul className="space-y-2">
+    <div className="fixed inset-0 z-[100] flex ">
+      <div onClick={() => dispatch(closeMenu())} className="fixed inset-0 bg-gray-900/60" />
+      <div className="relative z-[101] w-80 p-4 bg-gray-50 dark:bg-[#121212] h-full shadow-2xl animate-slide-in">
+        <div className='flex justify-between items-center mb-8'>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Menu</h2>
+          <FaTimes onClick={() => dispatch(closeMenu())} className="text-2xl text-gray-600 cursor-pointer hover:text-gray-800 transition-colors bg-white p-2 rounded-full shadow-sm hover:shadow-md" />
+        </div>
+        <div className="space-y-4">
           {menuItems.map((item) => (
-            <li key={item.path}>
+            <div key={item.path} className="bg-white dark:bg-[#1D1D1D] rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
               <Link
                 to={item.path}
-                className={`flex items-center gap-3 px-2 py-2 rounded-md transition-colors ${
-                  location.pathname === item.path
-                    ? 'bg-red-100 text-red-600 font-medium'
-                    : 'text-gray-700 hover:bg-gray-100'
-                }`}
+                className={`flex dark:bg-[#1D1D1D] items-center gap-4 p-2 text-blue-600 bg-white text-gray-700 hover:text-blue-600'`}
               >
-                {item.icon}
-                <span>{item.label}</span>
+                <div className={`p-3 rounded-xl bg-gray-100 dark:bg-[#3C4042] text-gray-600 dark:text-white/60
+              `}>
+                  <span className="text-lg">{item.icon}</span>
+                </div>
+                <span className="font-semibold text-lg dark:text-[#A8A8A8]">{item.label}</span>
               </Link>
-            </li>
+            </div>
           ))}
-        </ul>
-        <ul className="space-y-2 pt-[10px]">
-          <h1 className='font-medium'>Bizimlə əlaqə</h1>
-          <a href='https://wa.me/+994773184121' className='p-2 flex items-center gap-[10px]'><FaWhatsapp className='text-green-600 text-[20px]'/> Whatsapp</a>
-                  <a href='mailto:someone@example.com' className='p-2 flex items-center gap-[10px]'><IoIosMailUnread className='text-blue-600 text-[20px]'/> Email</a>
-        </ul>
+        </div>
+ <div  className="bg-white dark:bg-[#1D1D1D] rounded-2xl p-4 mt-[10px]   overflow-hidden">
+          <DarkModeToggle/>
+            </div>
+        <div className="mt-8">
+          <h3 className=' text-gray-800 mb-4 text-lg dark:text-[#A8A8A8]'>Bizimlə əlaqə</h3>
+          <div className="space-y-3">
+            <div className="bg-white dark:bg-[#1D1D1D] rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+              <a href={`https://wa.me/${info?.number}`} className='flex items-center gap-4 p-2 text-gray-700 hover:text-green-600'>
+                <div className="bg-green-100 dark:bg-[#3C4042] p-3 rounded-xl">
+                  <FaWhatsapp className="text-green-600 text-lg" />
+                </div>
+                <span className="font-semibold dark:text-[#A8A8A8]">Whatsapp</span>
+              </a>
+            </div>
+            <div className="bg-white dark:bg-[#1D1D1D] rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+              <a href={`mailto:${info?.email}`} className='flex items-center gap-4 p-2 text-gray-700 hover:text-blue-600'>
+                <div className="bg-blue-100 dark:bg-[#3C4042] p-3 rounded-xl">
+                  <IoIosMailUnread className="text-blue-600 text-lg" />
+                </div>
+                <span className="font-semibold dark:text-[#A8A8A8]">Email</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

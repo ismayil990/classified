@@ -6,12 +6,13 @@ import Loader from "../ui-components/Loader";
 import { IncreaseCallCount } from "../../functions/increaseCallCount";
 import ImageGallery from "../ui-components/ImageGallery";
 import { toggleFavorite } from "../../functions/addfavorite";
-
+import ReportModal from "../ui-components/ReportModal"; // yolunu uyğunlaşdır
+import { Flag } from "lucide-react";
 export default function ProductDetail() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+const [isReportOpen, setIsReportOpen] = useState(false);
   const [product,setProduct]=useState(null)
   const [open,setOpen]=useState(false)
   const navigate=useNavigate()
@@ -46,7 +47,7 @@ const handleToggleFavorite = (e, id) => {
 ];
 
   useEffect(() => {
-    axios.get(`https://backend-kmti.onrender.com/posts/${id}`)
+    axios.get(`http://localhost:3001/posts/${id}`)
       .then(res => {
         setProduct(res.data);
        setLoading(false)
@@ -204,6 +205,13 @@ const handleToggleFavorite = (e, id) => {
             </Link>
             <div className="flex items-center space-x-4">
               <button
+  onClick={() => setIsReportOpen(true)}
+  className="p-2 text-slate-600 hover:text-red-500 transition-colors duration-200 rounded-xl hover:bg-slate-100"
+  title="Şikayət et"
+>
+  <Flag className="w-5 h-5" />
+</button>
+              <button
                  onClick={(e) => handleToggleFavorite(e, product._id)}
                 className="p-2 text-slate-600 hover:text-red-600 transition-colors duration-200 bg-none border-0 cursor-pointer rounded-xl hover:bg-slate-100"
               >
@@ -274,6 +282,9 @@ const handleToggleFavorite = (e, id) => {
           <div className="space-y-8 animate-slide-in">
             
             {/* Product Title and Badges */}
+          {product.isApproved === false ? <div className="bg-[#ffcc00] font-semibold text-black flex items-center p-2 rounded-md">
+            Elanınız yoxlamaya göndərildi. Təsdiq edildikdən sonra saytda yayımlanacaq
+          </div> :
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 {product.premium != true ? <span onClick={()=>{handlePremiumClick(product._id)}} className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
@@ -285,6 +296,7 @@ const handleToggleFavorite = (e, id) => {
               
               
             </div>
+          }
 
             {/* Price Section */}
             <div className="bg-white text-white p-6 rounded-3xl ">
@@ -367,6 +379,8 @@ const handleToggleFavorite = (e, id) => {
       </div>
       <span onClick={makeCall} className="fixed w-[90%] left-[50%] translate-x-[-50%] bottom-2 p-2 flex items-center justify-center rounded-md font-bold bg-red-600 text-white min-[760px]:hidden">Zəng et</span>
 <ImageGallery open={open} images={product.images} setOpen={setOpen}/>
+<ReportModal isOpen={isReportOpen} onClose={() => setIsReportOpen(false)} postId={product._id} />
+
     </div>
   );
 }

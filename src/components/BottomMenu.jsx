@@ -22,8 +22,8 @@ export default function BottomMenu() {
 const currentPath = location.pathname;
   
   return (
-    <div className="fixed left-[50%] translate-x-[-50%] h-[60px] bottom-[-5px]  w-full  z-[60] min-[643px]:hidden">
-      <div className="bg-white  shadow-xl px-4 py-2 border border-gray-100">
+    <div className="fixed left-[50%]  translate-x-[-50%] h-[60px] bottom-[-5px]  w-full  z-[60] min-[643px]:hidden">
+      <div className="bg-white dark:bg-[#121212]  px-4 py-2 border- border-t-gray-100 dark:border-t-black">
         <div className="flex items-center justify-between ">
           <Link to="/" 
             className={`flex flex-col gap-[5px] items-center rounded-full transition-all ${ currentPath === '/' ? 'text-red-500' : 'text-gray-400 hover:bg-gray-100'}`}

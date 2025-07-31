@@ -1,4 +1,3 @@
-import CategoryForm from "../ui-components/AddCategory";
 import CategoryNav from "../ui-components/CategoryNav";
 import CategorySelect from "./CategorySelect";
 import Header from "./Header";

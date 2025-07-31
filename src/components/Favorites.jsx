@@ -21,7 +21,7 @@ export default function Favorites() {
 
     setLoading(true);
     axios
-      .get("https://backend-kmti.onrender.com/favorite-posts", {
+      .get("http://localhost:3001/favorite-posts", {
         params: { ids: favoritesIds.join(",") },
       })
       .then((res) => setFavoritesPosts(res.data))
@@ -51,16 +51,16 @@ export default function Favorites() {
     return (
       <div className="pt-[100px]">
         <PageHeader title="Sevimlilər" />
-        <p className="text-center mt-10">Sevimlilər siyahısı boşdur.</p>
+        <p className="text-center mt-10 dark:text-white">Sevimlilər siyahısı boşdur.</p>
       </div>
     );
 
   return (
     <div className="flex flex-col gap-5 w-full">
       <PageHeader title="Sevimlilər" />
-      <div className="flex flex-col gap-[15px] min-h-[100vh] bg-gray-50 mt-[50px] pt-[20px] pb-[100px] p-[5px] lg:px-6">
+      <div className="flex flex-col gap-[15px] min-h-[100vh] bg-gray-50 dark:bg-[#121212] mt-[50px] pt-[20px] pb-[100px] p-[5px] lg:px-6">
         <div className="flex flex-col gap-[5px]">
-          <div className="w-full bg-gray-50 overflow-hidden mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-[420px]:gap-[3px] gap-[15px]">
+          <div className="w-full bg-gray-50 dark:bg-[#121212] overflow-hidden mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 max-[420px]:gap-[3px] gap-[15px]">
             {favoritesPosts.map((post) => (
               <PostCard key={post._id} post={post} />
             ))}

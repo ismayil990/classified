@@ -8,15 +8,14 @@ import Input from "../ui-components/Input";
 import Button from "../ui-components/Button";
 import { fieldsConfig } from "../../data/fieldsconfig";
 import { colorMap, locations } from "../../data/options";
-
+import HybridSelect from "../ui-components/HybridSelect";
 import { searchPosts } from "../../redux/postsSlice";
 import { getCategories } from "../../redux/slice";
 
 // Skeleton komponenti (placeholder üçün)
-const SkeletonSelect = ({ label = "" }) => (
-  <div className="w-full animate-pulse">
-    <label className="block text-sm mb-1 text-gray-500">{label}</label>
-    <div className="h-[42px] bg-gray-200 rounded-lg w-full"></div>
+const SkeletonSelect = () => (
+  <div className="w-full h-[42px] rounded-lg bg-gray-200 relative overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-[shimmer_1.5s_infinite]" />
   </div>
 );
 
@@ -25,8 +24,7 @@ export default function AdvancedSearch() {
   const [formState, setFormState] = useState({ category: "" });
   const [errors, setErrors] = useState({});
   const [showFilter, setShowFilter] = useState(false);
-  const [animationClass, setAnimationClass] = useState("animate-slideUp");
-  const isDisabled = !formState.category;
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const { categories } = useSelector((state) => state.category);
 
@@ -38,19 +36,31 @@ export default function AdvancedSearch() {
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
   const models = selectedCategory?.brands.find((b) => b.name === formState.brand)?.models || [];
 
-  const handleChange = (field, value) => {
-    setFormState((prev) => {
-      if (field === "brand") {
-        const updated = { ...prev, brand: value };
-        delete updated.model;
-        return updated;
-      }
-      return { ...prev, [field]: value };
-    });
-    setErrors((prev) => ({ ...prev, [field]: "" }));
-  };
+const handleChange = (field, value) => {
+  setFormState((prev) => {
+      if (field === "category") {
+  if (prev.category === value) {
+    return prev; 
+  }
 
-  const sendOtp = async () => {
+  return {
+    category: value, 
+
+  };
+}
+    if (field === "brand") {
+      return {
+        ...prev,
+        brand: value,
+        model: prev.brand === value ? prev.model : "",  
+      };
+    }
+    return { ...prev, [field]: value };
+  });
+  setErrors((prev) => ({ ...prev, [field]: "" }));
+};
+
+  const searchPost = async () => {
     dispatch(searchPosts(formState));
   };
 
@@ -67,12 +77,14 @@ export default function AdvancedSearch() {
     }
 
     return (
-      <>
+       <>
         <SelectCategory
           label="Kateqoriya"
           items={categories?.map((cat) => cat.name)}
           title={formState.category || "Kateqoriya seçin"}
           onClick={(v) => handleChange("category", v)}
+          selectedItem={formState.category}
+          setSelectedItem={setSelectedItem}
         />
 
         {fieldsConfig[formState.category]?.map((field, index) => {
@@ -83,25 +95,33 @@ export default function AdvancedSearch() {
             return (
               <SelectCategory
                 label="Marka"
+                defaultLabel="Marka"
                 key={index}
-                items={brands}
-                title={formState.brand || "Marka"}
+                items={brands.sort((a, b) => {
+  if (a === "Digər") return 1;      
+  if (b === "Digər") return -1;      
+  return a.localeCompare(b, 'az', { sensitivity: 'base' }); 
+})}
+           
                 onClick={(v) => handleChange("brand", v)}
+                selectedItem={formState.brand}
+                setSelectedItem={setSelectedItem}
               />
             );
           }
 
-          if (field.name === "model") {
-            return (
-              <SelectCategory
-                label="Model"
-                key={index}
-                items={models}
-                title={formState.model || "Model"}
-                onClick={(v) => handleChange("model", v)}
-              />
-            );
-          }
+           if (field.name === "model") {
+                    return (
+                      <HybridSelect
+                        label="Model"
+                        key={index}
+                        options={models}
+                         value={formState.model || ""}
+                        onChange={(v) => handleChange("model", v)}
+                         disabled={!formState.brand}
+                      />
+                    );
+                  }
 
           if (field.type === "select") {
             return (
@@ -109,7 +129,8 @@ export default function AdvancedSearch() {
                 label={field.label}
                 key={index}
                 items={field.options}
-                title={formState[field.name] || field.label}
+                selectedItem={formState[field.name]}
+                setSelectedItem={setSelectedItem}
                 onClick={(v) => handleChange(field.name, v)}
                 {...(field.name === "color" ? { colorMap } : {})}
               />
@@ -134,8 +155,9 @@ export default function AdvancedSearch() {
         <SelectCategory
           label="Şəhər"
           items={locations}
-          title={formState.city || "Şəhər"}
           onClick={(v) => handleChange("city", v)}
+             selectedItem={formState["city"]}
+                setSelectedItem={setSelectedItem}
         />
 
         <div className="flex gap-2">
@@ -153,26 +175,25 @@ export default function AdvancedSearch() {
           />
         </div>
 
-        <Button text="Axtar" type="button" onClick={sendOtp} />
+        <Button text="Axtar" type="button" onClick={searchPost} />
       </>
     );
   };
 
   return (
-    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white lg:bg-gray-100 lg:pb-[20px]">
-      {/* Filter Toggle Button for Mobile */}
+    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white dark:bg-[#121212] md:bg-gray-100 lg:bg-gray-100 lg:pb-[20px]">
       <div className="md:hidden flex justify-end w-full">
         <button
-          className="w-full flex items-center h-[50px] justify-between bg-gray-100 px-4 py-[7px] border-[1px] border-gray-200 rounded-xl"
+          className="w-full flex items-center h-[50px] justify-between bg-gray-100 dark:bg-[#454545] px-4 py-[7px] border-[1px] border-gray-200 dark:border-gray-800 rounded-xl"
           onClick={() => setShowFilter(true)}
         >
-          <p className="font-medium text-slate-600">Ətraflı axtarış</p>
-          <SlidersHorizontal size={20} />
+          <p className="font-medium text-slate-600 dark:text-white">Ətraflı axtarış</p>
+          <SlidersHorizontal size={20} className="dark:text-white" />
         </button>
       </div>
 
       {/* Desktop Filter Grid */}
-      <div className="hidden md:flex flex-wrap justify-center gap-5">
+      <div className="hidden  p-2 rounded-md md:flex flex-wrap justify-center gap-5">
         <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-5 w-full">
           {renderFields()}
         </div>
@@ -180,14 +201,14 @@ export default function AdvancedSearch() {
 
       {/* Mobile Filter Panel */}
       {showFilter && (
-        <div className="fixed top-0 left-0 w-full h-full z-70 bg-white p-5 overflow-y-auto shadow-lg md:hidden">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Filtrlə</h2>
-            <button onClick={() => setShowFilter(false)} className="text-gray-600">
+        <div className="fixed top-0 left-0 w-full h-full z-70 bg-white dark:bg-[#121212] overflow-y-auto shadow-lg md:hidden">
+          <div className="flex justify-between items-center p-4 mb-4 border-b-2 border-gray-100 dark:border-gray-900 w-full">
+            <h2 className="text-lg dark:text-white font-semibold">Filtrlə</h2>
+            <button onClick={() => setShowFilter(false)} className="text-gray-600 dark:text-white">
               <Undo2 className="w-5 h-5" />
             </button>
           </div>
-          <form className="flex flex-col gap-4">{renderFields()}</form>
+          <form className="flex flex-col gap-4 pt-[20px] p-4">{renderFields()}</form>
         </div>
       )}
     </div>

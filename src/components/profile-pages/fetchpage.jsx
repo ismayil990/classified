@@ -6,7 +6,7 @@ export default function Fetch(){
     fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "HTTP-Referer": "https://your-site.com",
         "X-Title": "Your Site Title",
         "Content-Type": "application/json"
@@ -16,7 +16,7 @@ export default function Fetch(){
         messages: [
           {
             role: "user",
-            content: "Lenovo essential əsas xüsusiyyətlərin yaz"
+            content: "Samsung A15 əsas texniki xüsusiyyətlərin yaz field:key formatinda.field hissesin azerbaycan dilinde yaz"
           }
         ]
       })

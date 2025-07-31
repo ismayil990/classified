@@ -19,7 +19,7 @@ export default function PostCard({ post }) {
   return (
     <Link to={`/product/${post._id}`}
      
-      className={`relative bg-white border-[1px] border-gray-200 rounded-[7px] overflow-hidden hover:shadow-sm hover:scale-105 transition-all duration-300 cursor-pointer`}
+      className={`relative bg-white dark:bg-[#383838] border-[1px] border-gray-200 dark:border-gray-700  rounded-[7px] overflow-hidden hover:shadow-sm hover:scale-105 transition-all duration-300 cursor-pointer`}
     >
       <div className=" w-full max-[450px]:h-[150px] h-[180px] overflow-hidden">
         <img
@@ -41,10 +41,10 @@ export default function PostCard({ post }) {
            <RiVipCrownFill size={20} className="text-red-500 border-0"/>
           </span> : null}
       </div>
-      <div className="p-4 bg-white backdrop-blur-sm">
-        <p className="text-lg font-bold text-black/70 mb-1">{post.price} AZN</p>
-        <p className="text-sm text-black/70 font-medium line-clamp-2 mb-2">{post.post_title}</p>
-        <p className="text-xs text-black/50 font-medium">{post.city}</p>
+      <div className="p-4 bg-white dark:bg-[#383838] backdrop-blur-sm">
+        <p className="text-lg font-bold text-black/70 mb-1 dark:text-white">{post.price} AZN</p>
+        <p className="text-sm text-black/70 font-medium line-clamp-2 mb-2 dark:text-white">{post.post_title}</p>
+        <p className="text-xs text-black/50 font-medium dark:text-white">{post.city}</p>
       </div>
     </Link>
   );
