@@ -21,12 +21,12 @@ export default function SelectCategory({selectedItem,setSelectedItem,label, item
       {/* Başlıq və seçim hissəsi */}
       <div
         onClick={() => setOpen(!open)}
-        className="flex items-center justify-between h-[50px] bg-white dark:bg-[#2E2F2F] border border-gray-200 dark:border-[#262626] rounded-lg px-6 py-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-black transition-all duration-200"
+        className="flex items-center justify-between h-[50px] bg-white  border border-gray-200  rounded-lg px-6 py-4 cursor-pointer hover:bg-gray-50  transition-all duration-200"
       >
         <div className="flex flex-col">
           {/* Title - seçiləndə yuxarı qalxır */}
           <span
-            className={`text-xs text-gray-400 dark:text-[#F5F5F5] transition-all duration-200 ${
+            className={`text-xs text-gray-400 transition-all duration-200 ${
               selectedItem ? 'opacity-100 mb-1' : 'opacity-0 h-0'
             }`}
           >
@@ -34,13 +34,13 @@ export default function SelectCategory({selectedItem,setSelectedItem,label, item
           </span>
 
           {/* Əsas görünən mətn */}
-          <span className="text-sm font-medium text-gray-800 dark:text-[#F5F5F5]">
+          <span className="text-sm font-medium text-gray-800 ">
             {selectedItem || label}
           </span>
         </div>
 
         <svg
-          className={`w-4 h-4 text-gray-500 dark:text-white transition-transform duration-300 ${
+          className={`w-4 h-4 text-gray-500  transition-transform duration-300 ${
             open ? 'rotate-180' : ''
           }`}
           fill="none"
@@ -66,24 +66,24 @@ export default function SelectCategory({selectedItem,setSelectedItem,label, item
               z-50 transition-all duration-300
               ${
                 isMobile
-                  ? 'fixed bottom-0 left-0 right-0 bg-white dark:bg-[#2E2F2F] rounded-t-2xl p-4 max-h-[60vh] overflow-hidden noscroll'
-                  : 'absolute mt-4 w-full max-h-[300px] overflow-hidden noscroll p-[5px] bg-white dark:bg-[#2E2F2F] border border-gray-200 dark:border-gray-900 rounded-2xl shadow-xl'
+                  ? 'fixed bottom-0 left-0 right-0 bg-white  rounded-t-2xl p-4 max-h-[60vh] overflow-hidden noscroll'
+                  : 'absolute mt-4 w-full max-h-[300px] overflow-hidden noscroll p-[5px] bg-white  border border-gray-200 rounded-2xl shadow-xl'
               }
             `}
           >
             {/* Mobil üçün yuxarı xət */}
             <div className="w-full min-[643px]:hidden flex justify-center">
-              <span className="w-[25px] h-[2px] bg-black dark:bg-white flex" />
+              <span className="w-[25px] h-[2px] bg-black  flex" />
             </div>
 
             {/* Scroll hissəsi */}
-            <div className="overflow-y-auto dark:bg-[#2E2F2F] noscroll max-h-[250px]">
+            <div className="overflow-y-auto  noscroll max-h-[250px]">
               <ul className="divide-y divide-gray-100 ">
                 {items.map((item, index) => (
                   <li
                     key={index}
                     onClick={() => handleSelect(item)}
-                    className="max-[643px]:px-2 px-6 py-3 text-gray-700 dark:text-white border-0 hover:bg-blue-50 dark:hover:bg-black dark:hover:text-white hover:text-gray-900 cursor-pointer transition-colors duration-150 flex items-center gap-2 rounded-xl"
+                    className="max-[643px]:px-2 px-6 py-3 text-gray-700  border-0 hover:bg-blue-50  hover:text-gray-900 cursor-pointer transition-colors duration-150 flex items-center gap-2 rounded-xl"
                   >
                     {colorMap?.[item] && (
                       <div

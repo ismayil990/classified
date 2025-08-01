@@ -14,7 +14,7 @@ export default function Myposts() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Posts-u backend-dən çəkmək üçün funksiya
+
   const fetchProfile = async () => {
     setLoading(true);
     const token = localStorage.getItem("token");
@@ -34,12 +34,12 @@ export default function Myposts() {
     }
   };
 
-  // İlk yüklənmədə çağır
+
   useEffect(() => {
     fetchProfile();
   }, []);
 
-  // Delete üçün custom confirm toast
+
   const confirmDelete = (id) => {
     const ToastContent = () => (
       <div className="flex flex-col items-center justify-center gap-2 w-full">
@@ -73,11 +73,10 @@ export default function Myposts() {
     });
   };
 
-  // Elanı silmə funksiyası
   const deletePost = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3001/delete-post/${id}`, {
+      await axios.delete(`https://backend-kmti.onrender.com/delete-post/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

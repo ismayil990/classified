@@ -2,13 +2,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-// ✅ Parametrli API çağırışı
+
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
   async (category, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/posts`,{
+        `https://backend-kmti.onrender.com/posts`,{
             params:category
         }
       );
@@ -31,7 +31,7 @@ export const searchPosts = createAsyncThunk(
     }
 
     try {
-      const res = await axios.post("http://localhost:3001/search-advanced", formState);
+      const res = await axios.post("https://backend-kmti.onrender.com/search-advanced", formState);
       return res.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Axtarış zamanı xəta baş verdi.");

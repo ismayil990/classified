@@ -7,7 +7,7 @@ export default function About() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/about")
+    axios.get("https://backend-kmti.onrender.com/about")
       .then(res => {
         if (res.data?.about) {
           setAboutHtml(res.data.about);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Undo2, SlidersHorizontal } from "lucide-react";
-import axios from "axios";
+
 
 import SelectCategory from "../ui-components/SelectCategory";
 import Input from "../ui-components/Input";
@@ -12,7 +12,7 @@ import HybridSelect from "../ui-components/HybridSelect";
 import { searchPosts } from "../../redux/postsSlice";
 import { getCategories } from "../../redux/slice";
 
-// Skeleton komponenti (placeholder üçün)
+
 const SkeletonSelect = () => (
   <div className="w-full h-[42px] rounded-lg bg-gray-200 relative overflow-hidden">
     <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 animate-[shimmer_1.5s_infinite]" />
@@ -181,14 +181,14 @@ const handleChange = (field, value) => {
   };
 
   return (
-    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white dark:bg-[#121212] md:bg-gray-100 lg:bg-gray-100 lg:pb-[20px]">
+    <div className="w-full pt-[80px] px-2 lg:px-6 bg-white  md:bg-gray-100 lg:bg-gray-100 lg:pb-[20px]">
       <div className="md:hidden flex justify-end w-full">
         <button
-          className="w-full flex items-center h-[50px] justify-between bg-gray-100 dark:bg-[#454545] px-4 py-[7px] border-[1px] border-gray-200 dark:border-gray-800 rounded-xl"
+          className="w-full flex items-center h-[50px] justify-between bg-gray-100  px-4 py-[7px] border-[1px] border-gray-200  rounded-xl"
           onClick={() => setShowFilter(true)}
         >
-          <p className="font-medium text-slate-600 dark:text-white">Ətraflı axtarış</p>
-          <SlidersHorizontal size={20} className="dark:text-white" />
+          <p className="font-medium text-slate-600 ">Ətraflı axtarış</p>
+          <SlidersHorizontal size={20}  />
         </button>
       </div>
 
@@ -201,10 +201,10 @@ const handleChange = (field, value) => {
 
       {/* Mobile Filter Panel */}
       {showFilter && (
-        <div className="fixed top-0 left-0 w-full h-full z-70 bg-white dark:bg-[#121212] overflow-y-auto shadow-lg md:hidden">
-          <div className="flex justify-between items-center p-4 mb-4 border-b-2 border-gray-100 dark:border-gray-900 w-full">
-            <h2 className="text-lg dark:text-white font-semibold">Filtrlə</h2>
-            <button onClick={() => setShowFilter(false)} className="text-gray-600 dark:text-white">
+        <div className="fixed top-0 left-0 w-full h-full z-70 bg-white  overflow-y-auto shadow-lg md:hidden">
+          <div className="flex justify-between items-center p-4 mb-4 border-b-2 border-gray-100  w-full">
+            <h2 className="text-lg  font-semibold">Filtrlə</h2>
+            <button onClick={() => setShowFilter(false)} className="text-gray-600 ">
               <Undo2 className="w-5 h-5" />
             </button>
           </div>

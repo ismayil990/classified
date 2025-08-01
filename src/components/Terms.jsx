@@ -7,7 +7,7 @@ export default function Terms() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/terms")
+    axios.get("https://backend-kmti.onrender.com/terms")
       .then(res => {
         if (res.data?.terms) {
           setTermsHtml(res.data.terms);

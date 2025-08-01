@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 
 export default function ImageGallery({ images, open, setOpen, activeIndex }) {
@@ -12,10 +13,15 @@ export default function ImageGallery({ images, open, setOpen, activeIndex }) {
     <>
       <Lightbox
         open={open}
+  
         close={() => setOpen(false)}
         slides={slides}
         index={index}
-        on={{ view: ({ index }) => setIndex(index) }}
+        on={{ view: ({ index }) => setIndex(index) }} 
+        plugins={[Zoom]}
+        zoom={{ maxZoomPixelRatio: 300,
+            scrollToZoom: true,}}
+
       />
     </>
   );

@@ -1,21 +1,19 @@
 import { createSlice,createAsyncThunk } from '@reduxjs/toolkit';
-import { categories } from '../data/options';
 import axios from 'axios';
-import AdvancedSearch from '../src/components/AdvancedSearch';
-import { BiBody } from 'react-icons/bi';
+
 
 export const getCategories = createAsyncThunk(
   'category/getCategories',
   async (_, { getState, rejectWithValue }) => {
     const state = getState();
 
-    // Əgər artıq çəkilibsə, API çağırma
+
     if (state.category.categories.length > 0) {
       return rejectWithValue("Already loaded");
     }
 
     try {
-      const response = await axios.get("http://localhost:3001/categories");
+      const response = await axios.get("https://backend-kmti.onrender.com/categories");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Xəta baş verdi");

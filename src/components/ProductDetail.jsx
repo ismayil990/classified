@@ -1,13 +1,12 @@
 import { useNavigate, useParams,Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Share2,Phone,User,Mail,Heart } from 'lucide-react';
+import { Share2,Phone,User,Mail,Heart, Flag } from 'lucide-react';
 import Loader from "../ui-components/Loader";
 import { IncreaseCallCount } from "../../functions/increaseCallCount";
 import ImageGallery from "../ui-components/ImageGallery";
-import { toggleFavorite } from "../../functions/addfavorite";
-import ReportModal from "../ui-components/ReportModal"; // yolunu uyğunlaşdır
-import { Flag } from "lucide-react";
+import ReportModal from "../ui-components/ReportModal"; 
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -33,7 +32,7 @@ const handleToggleFavorite = (e, id) => {
   localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   setFavorites(updatedFavorites);
 };
-  // Mock data for tech products
+ 
   const productFields = [
   { key: "brand", label: "Marka" },
   { key: "model", label: "Model" },
@@ -192,7 +191,7 @@ const handleToggleFavorite = (e, id) => {
         }
       `}</style>
       
-      {/* Header */}
+    
       <div className="bg-white/95 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-40">
         <div className="w-full mx-auto px-2 sm:px-2 lg:px-2">
           <div className="flex items-center justify-between h-16">
@@ -231,7 +230,7 @@ const handleToggleFavorite = (e, id) => {
       <div className="max-full p-[10px] overflow-hidden mt-[20px] pb-[100px] max-[770px]:mt-[0px]">
         <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           
-          {/* Image Section */}
+       
           <div className="space-y-6">
             <div onClick={()=>{setOpen(true)}} className="bg-white overflow-hidden rounded-2xl tech-shadow-lg">
               <div className="aspect-square relative">
@@ -256,7 +255,7 @@ const handleToggleFavorite = (e, id) => {
               </div>
             </div>
             
-            {/* Thumbnail Navigation */}
+           
             <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-thin p-[5px]">
               {product.images.map((img, index) => (
                 <button
@@ -278,10 +277,9 @@ const handleToggleFavorite = (e, id) => {
             </div>
           </div>
 
-          {/* Product Info */}
           <div className="space-y-8 animate-slide-in">
             
-            {/* Product Title and Badges */}
+            
           {product.isApproved === false ? <div className="bg-[#ffcc00] font-semibold text-black flex items-center p-2 rounded-md">
             Elanınız yoxlamaya göndərildi. Təsdiq edildikdən sonra saytda yayımlanacaq
           </div> :
@@ -298,7 +296,7 @@ const handleToggleFavorite = (e, id) => {
             </div>
           }
 
-            {/* Price Section */}
+           
             <div className="bg-white text-white p-6 rounded-3xl ">
               <div className="flex flex-col  items-start justify-between gap-[30px]">
                 <h1 className="text-3xl lg:text-4xl font-bold text-black leading-tight">
@@ -315,14 +313,14 @@ const handleToggleFavorite = (e, id) => {
 
 
 
-            {/* Product Description */}
+            
             <div className="bg-white rounded-3xl p-6 ">
               <h3 className="text-xl font-bold text-slate-800 mb-4">Məhsul haqqında</h3>
               <p className="text-slate-600 text-base leading-relaxed mb-6">
                 {product.description}
               </p>
               
-              {/* Specifications */}
+         
       <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
   {productFields.map(({ key, label }) => (
     product[key] ? (

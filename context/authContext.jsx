@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await axios.get("http://localhost:3001/verify-user", {
+        const response = await axios.get("https://backend-kmti.onrender.com/verify-user", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

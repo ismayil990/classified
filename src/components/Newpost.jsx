@@ -7,7 +7,6 @@ import Button from "../ui-components/Button";
 import { fieldsConfig } from "../../data/fieldsconfig";
 import { colorMap, locations } from "../../data/options";
 import Input from "../ui-components/Input";
-import MultiSelectCategory from "../ui-components/MultipleSelect";
 import Textarea from "../ui-components/Textarea";
 import MultiImageUpload from "../ui-components/ImageUpload";
 import { CarFront, LaptopMinimal, Smartphone } from "lucide-react";
@@ -29,7 +28,7 @@ function capitalizeWords(text) {
 function removeBrandFromModel(model, brand) {
   if (!model || !brand) return model;
 
-  // \b tam söz kimi brand-i tapmaq üçün, case insensitive
+  
   const brandRegex = new RegExp(`\\b${brand}\\b`, "i");
 
   if (brandRegex.test(model)) {
@@ -55,7 +54,7 @@ const [selectedItem, setSelectedItem] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3001/categories/full")
+    axios.get("https://backend-kmti.onrender.com/categories/full")
       .then(res => setCategories(res.data))
       .catch(err => console.error("Kategoriya alınarkən xəta:", err));
   }, []);
@@ -74,24 +73,24 @@ const [selectedItem, setSelectedItem] = useState(null);
 
       if (field === "category") {
   if (prev.category === value) {
-    return prev; // Eyni category seçilibsə, heç nə dəyişmə
+    return prev;
   }
 
   return {
-    category: value, // Yeni category
-    // Digər sahələr sıfırlanır (yəni təmiz form)
+    category: value, 
+ 
   };
 } else if (field === "brand") {
   updated.brand = value;
 
-  // Əgər brand dəyişibsə, modeli sil
+
   if (prev.brand !== value) {
     delete updated.model;
   }
 
-  // Avto başlıq generasiya
+  
   if (isAutoTitleCategory(prev.category)) {
-    const modelName = prev.brand === value ? prev.model : ""; // model varsa, istifadə et
+    const modelName = prev.brand === value ? prev.model : ""; 
     if (value && modelName) {
       updated.post_title = `${value} ${modelName}`;
     } else {
@@ -101,10 +100,10 @@ const [selectedItem, setSelectedItem] = useState(null);
 } else if (field === "model") {
         let newModel = value;
         if (prev.brand) {
-          // Modeldən brand adı silinir
+     
           newModel = removeBrandFromModel(newModel, prev.brand);
         }
-        // Bütün sözlərin ilk hərfi böyük edilir
+  
         newModel = capitalizeWords(newModel);
 
         updated.model = newModel;
@@ -128,10 +127,7 @@ const [selectedItem, setSelectedItem] = useState(null);
     setErrors((prev) => ({ ...prev, [field]: "" }));
   };
 
-  const handleCategoryChange = (categoryId) => {
-    setFormState({ category: categoryId, images: [] });
-    setErrors({});
-  };
+  
 
   const sendOtp = async () => {
     setLoading(true);
@@ -152,7 +148,7 @@ const [selectedItem, setSelectedItem] = useState(null);
     }
 
     try {
-      await axios.post("http://localhost:3001/send-otp", {
+      await axios.post("https://backend-kmti.onrender.com/send-otp", {
         contact: `+994${prefix.slice(1)}${formState.contact}`,
       });
       toast.success("Təsdiq kodu nömrəyə göndərildi");
@@ -193,7 +189,7 @@ const [selectedItem, setSelectedItem] = useState(null);
     formData.append("otp", otp);
 
     try {
-      const res = await axios.post("http://localhost:3001/posts", formData, {
+      const res = await axios.post("https://backend-kmti.onrender.com/posts", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -218,7 +214,7 @@ const [selectedItem, setSelectedItem] = useState(null);
     <div className="flex flex-col gap-10 w-full pb-24 pt-[80px]">
       <PageHeader title="Yeni elan" />
 
-      <div className="w-full flex justify-center">
+      <div className="w-full flex flex-col gap-[30px] items-center justify-center">
         {step === 1 ? (
           <form className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
             <SelectCategory
@@ -242,9 +238,9 @@ const [selectedItem, setSelectedItem] = useState(null);
                         label="Marka"
                         key={index}
                         items={brands.sort((a, b) => {
-  if (a === "Digər") return 1;        // a "Digər"dirsə, sona getsin
-  if (b === "Digər") return -1;       // b "Digər"dirsə, a onun qabağına gəlsin
-  return a.localeCompare(b, 'az', { sensitivity: 'base' }); // digərlər alfabetik
+  if (a === "Digər") return 1;       
+  if (b === "Digər") return -1;      
+  return a.localeCompare(b, 'az', { sensitivity: 'base' }); 
 })}
                         title={formState.brand || "Marka"}
                         onClick={(v) => handleChange("brand", v)}
@@ -394,6 +390,7 @@ const [selectedItem, setSelectedItem] = useState(null);
             />
           </form>
         )}
+         <p className="text-gray-600 p-4 text-center">Elanı dərc etməklə, siz Mobitex platformasının istifadə şərtlərini və qaydalarını qəbul etmiş sayılırsınız.</p>
       </div>
     </div>
   );

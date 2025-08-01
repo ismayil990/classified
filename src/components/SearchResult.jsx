@@ -9,7 +9,7 @@ export default function SearchResult() {
 
   return (
     <div className="fixed inset-0 z-[80] bg-gray-50 flex flex-col">
-      {/* Sabit başlıq */}
+    
       <div className="flex gap-4 items-center h-[50px] px-4 border-b border-gray-200 shrink-0">
         <TiArrowBackOutline
           onClick={() => dispatch(closeSearch())}
@@ -19,7 +19,7 @@ export default function SearchResult() {
         <h1 className="text-slate-800 font-medium">Axtarış nəticəsi</h1>
       </div>
 
-      {/* Scroll olan hissə */} {searchResults.length === 0 && (
+     {searchResults.length === 0 && (
     <p className="text-center text-gray-500 text-lg pt-[100px]">Axtarışa uyğun heç bir nəticə tapılmadı.</p>
   )}
       <div className="flex-1 overflow-y-auto p-2">

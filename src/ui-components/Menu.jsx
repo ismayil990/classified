@@ -5,7 +5,7 @@ import { IoIosMailUnread } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { closeMenu } from '../../redux/slice';
 import axios from 'axios';
-import DarkModeToggle from '../components/SwitchDark';
+
 
 export default function CardBasedMenu() {
   const { menuBar } = useSelector((state) => state.category);
@@ -37,47 +37,44 @@ export default function CardBasedMenu() {
   return (
     <div className="fixed inset-0 z-[100] flex ">
       <div onClick={() => dispatch(closeMenu())} className="fixed inset-0 bg-gray-900/60" />
-      <div className="relative z-[101] w-80 p-4 bg-gray-50 dark:bg-[#121212] h-full shadow-2xl animate-slide-in">
+      <div className="relative z-[101] w-80 p-4 bg-gray-50 h-full shadow-2xl animate-slide-in">
         <div className='flex justify-between items-center mb-8'>
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Menu</h2>
+          <h2 className="text-xl font-bold text-gray-800">Menu</h2>
           <FaTimes onClick={() => dispatch(closeMenu())} className="text-2xl text-gray-600 cursor-pointer hover:text-gray-800 transition-colors bg-white p-2 rounded-full shadow-sm hover:shadow-md" />
         </div>
         <div className="space-y-4">
           {menuItems.map((item) => (
-            <div key={item.path} className="bg-white dark:bg-[#1D1D1D] rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+            <div key={item.path} className="bg-white  rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
               <Link
                 to={item.path}
-                className={`flex dark:bg-[#1D1D1D] items-center gap-4 p-2 text-blue-600 bg-white text-gray-700 hover:text-blue-600'`}
+                className={`flex  items-center gap-4 p-2 text-blue-600 bg-white text-gray-700 hover:text-blue-600'`}
               >
-                <div className={`p-3 rounded-xl bg-gray-100 dark:bg-[#3C4042] text-gray-600 dark:text-white/60
+                <div className={`p-3 rounded-xl bg-gray-100  text-gray-600 
               `}>
                   <span className="text-lg">{item.icon}</span>
                 </div>
-                <span className="font-semibold text-lg dark:text-[#A8A8A8]">{item.label}</span>
+                <span className="font-semibold text-lg ">{item.label}</span>
               </Link>
             </div>
           ))}
         </div>
- <div  className="bg-white dark:bg-[#1D1D1D] rounded-2xl p-4 mt-[10px]   overflow-hidden">
-          <DarkModeToggle/>
-            </div>
         <div className="mt-8">
-          <h3 className=' text-gray-800 mb-4 text-lg dark:text-[#A8A8A8]'>Bizimlə əlaqə</h3>
+          <h3 className=' text-gray-800 mb-4 text-lg '>Bizimlə əlaqə</h3>
           <div className="space-y-3">
-            <div className="bg-white dark:bg-[#1D1D1D] rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+            <div className="bg-white  rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
               <a href={`https://wa.me/${info?.number}`} className='flex items-center gap-4 p-2 text-gray-700 hover:text-green-600'>
-                <div className="bg-green-100 dark:bg-[#3C4042] p-3 rounded-xl">
+                <div className="bg-green-100  p-3 rounded-xl">
                   <FaWhatsapp className="text-green-600 text-lg" />
                 </div>
-                <span className="font-semibold dark:text-[#A8A8A8]">Whatsapp</span>
+                <span className="font-semibold ">Whatsapp</span>
               </a>
             </div>
-            <div className="bg-white dark:bg-[#1D1D1D] rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+            <div className="bg-white  rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
               <a href={`mailto:${info?.email}`} className='flex items-center gap-4 p-2 text-gray-700 hover:text-blue-600'>
-                <div className="bg-blue-100 dark:bg-[#3C4042] p-3 rounded-xl">
+                <div className="bg-blue-100  p-3 rounded-xl">
                   <IoIosMailUnread className="text-blue-600 text-lg" />
                 </div>
-                <span className="font-semibold dark:text-[#A8A8A8]">Email</span>
+                <span className="font-semibold ">Email</span>
               </a>
             </div>
           </div>

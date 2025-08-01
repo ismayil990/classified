@@ -35,22 +35,18 @@ const handleCategoryChange = (name) => {
   dispatch(closeCategorySheet());
 };
 
-  const iconMap = {
-    Telefon: <Smartphone className="text-blue-500" />,
-    Komputer: <LaptopMinimal className="text-blue-500" />,
-  };
 
   if (!openCategoryMenu) return null;
 
   return (
     <>
-      {/* Blur overlay */}
+
       <div
         onClick={() => dispatch(closeCategorySheet())}
         className="fixed inset-0 bg-black/30 backdrop-blur-lg z-50"
       ></div>
 
-      {/* Bottom sheet */}
+
       <div className={`fixed   bottom-0 left-0 right-0 lg:left-0 lg:top-0 lg:h-full lg:w-[300px] lg:rounded-none z-60 bg-white rounded-t-3xl p-4 border-t border-gray-100 transition-transform duration-300 ${animationClass}`}>
         <div className="flex justify-between items-center mb-4">
           <p className="font-bold text-lg text-slate-800">Kateqoriya seç</p>
@@ -68,7 +64,6 @@ const handleCategoryChange = (name) => {
                 categoryName === "Bütün elanlar" ? "bg-gray-50" : "hover:bg-gray-50"
               }`}
             >
-               <span>{<Tally4 className="text-blue-500"/>}</span>
               <p className="font-medium text-[16px]">Bütün elanlar</p>
             </button>
             {loading ? (
@@ -85,7 +80,6 @@ const handleCategoryChange = (name) => {
         categoryName === category.name ? "bg-gray-50" : "hover:bg-gray-50"
       }`}
     >
-      <span>{iconMap[category.name]}</span>
       <p className="font-medium text-[16px]">{category.name}</p>
     </button>
   ))
@@ -93,7 +87,7 @@ const handleCategoryChange = (name) => {
         </div>
       </div>
 
-      {/* Animations */}
+ 
       <style>{`
         @keyframes slideUp {
           from {

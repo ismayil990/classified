@@ -17,14 +17,14 @@ import AdvancedSearch from './components/AdvancedSearch.jsx';
 import About from './components/About.jsx';
 import Terms from './components/Terms.jsx';
 
-// Protected Route komponenti
+
 function PrivateRoute({ children }) {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/login" replace />;
 }
 
 
-  // product detail səhifəsində bottommenu gizlətmək üçün
+
 
 function App() {
     const location = useLocation();

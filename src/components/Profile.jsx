@@ -19,7 +19,7 @@ export default function UserProfile() {
       if (!token) return;
 
       try {
-        const response = await axios.get("http://localhost:3001/profile", {
+        const response = await axios.get("https://backend-kmti.onrender.com/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,13 +37,13 @@ export default function UserProfile() {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.href = "/"; // Redirect to homepage
+    window.location.href = "/"; 
   };
 
   const handleDeleteAccount = async () => {
     try {
       const token = localStorage.getItem("token");
-      await axios.delete("http://localhost:3001/delete-account", {
+      await axios.delete("https://backend-kmti.onrender.com/delete-account", {
         headers: { Authorization: `Bearer ${token}` },
       });
       localStorage.removeItem("token");

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
 import { useNavigate, useLocation } from "react-router-dom";
-import PhoneInput from "../ui-components/PhoneInput"; // komponent yolunu uyğunlaşdır
+import PhoneInput from "../ui-components/PhoneInput";
 import {toast} from "react-toastify"
 import PageHeader from "../ui-components/PageHeader";
 export default function Login() {
@@ -26,7 +26,7 @@ export default function Login() {
   try {
     setLoading(true);
     const fullContact = `+994${prefix.slice(1)}${contact}`;
-    await axios.post("http://localhost:3001/send-otp-number", { contact: fullContact });
+    await axios.post("https://backend-kmti.onrender.com/send-otp-number", { contact: fullContact });
     toast.success("OTP göndərildi!");
     setStep(2);
   } catch (err) {
@@ -41,7 +41,7 @@ const verifyOtp = async () => {
   try {
     setLoading(true);
     const fullContact = `+994${prefix.slice(1)}${contact}`;
-    const res = await axios.post("http://localhost:3001/verify-otp", {
+    const res = await axios.post("https://backend-kmti.onrender.com/verify-otp", {
       contact: fullContact,
       otp,
     });

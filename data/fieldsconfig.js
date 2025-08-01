@@ -43,15 +43,15 @@ export const fieldsConfig = {
    { name: "color", label: "Rəng", type: "select", options: colors },
   { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ],
-  "Televizor": [
+  "Planşet": [
     { name: "make", label: "Marka", type: "select", options: [] },
+     { name: "model", label: "Model", type: "select", options: [] },
     { name: "color", label: "Rəng", type: "select", options: colors },
      { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ],
    "Oyun konsolları": [
     { name: "make", label: "Marka", type: "select", options: [] },
     { name: "model", label: "Model", type: "select", options: [] },
-    { name: "memory", label: "Yaddaş", type: "select", options: [  "16 GB","32 GB","64 GB","128 GB","256 GB","512 GB","1TB"] },
     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ]
 };

@@ -50,12 +50,12 @@ const HybridSelect = ({ options, onChange, disabled, value = "" }) => {
   };
 
   return (
-    <div className="relative w-full bg-white dark:bg-[#2E2F2F] rounded-lg" ref={wrapperRef}>
+    <div className="relative w-full bg-white rounded-lg" ref={wrapperRef}>
       <label
         onClick={() =>  inputRef.current?.focus()}
         className={`
-          absolute left-5 pt-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-400 dark:text-[#F5F5F5] transition-all duration-200 cursor-text z-10
-          ${showLabel ? "top-2 text-xs text-gray-500 dark:text-[#F5F5F5]" : ""}
+          absolute left-5 pt-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-400 transition-all duration-200 cursor-text z-10
+          ${showLabel ? "top-2 text-xs text-gray-500 " : ""}
         `}
       >
         Model seç və ya yaz
@@ -80,20 +80,20 @@ const HybridSelect = ({ options, onChange, disabled, value = "" }) => {
         onBlur={() => setIsFocused(false)}
         placeholder=" "
         className={`
-          peer w-full h-[50px] dark:text-white border border-gray-200 dark:border-gray-900 rounded-lg px-5 pt-5 pb-2
-          focus:outline-none transition-all focus:ring-1 focus:ring-blue-500 dark:focus:ring-slate-900
-          ${disabled ? "bg-gray-50 dark:bg-black cursor-not-allowed" : ""}
+          peer w-full h-[50px]  border border-gray-200  rounded-lg px-5 pt-5 pb-2
+          focus:outline-none transition-all focus:ring-1 focus:ring-blue-500 
+          ${disabled ? "bg-gray-50  cursor-not-allowed" : ""}
         `}
       />
 
       {showOptions && filteredOptions.length > 0 && (
-        <ul className="absolute z-20 top-full left-0 right-0 max-h-[300px] overflow-auto noscroll border border-gray-100 dark:border-slate-900 bg-white dark:bg-[#2E2F2F] rounded-md shadow-md divide-y divide-gray-100 mt-1">
+        <ul className="absolute z-20 top-full left-0 right-0 max-h-[300px] overflow-auto noscroll border border-gray-100  bg-white  rounded-md shadow-md divide-y divide-gray-100 mt-1">
           {filteredOptions.map((opt, i) => (
             <li
               key={i}
               onClick={() => handleOptionClick(opt)}
               onMouseDown={(e) => e.preventDefault()}
-              className="px-6 py-3 text-gray-700 dark:text-white border-1 dark:border-white/10 hover:bg-blue-50 dark:hover:bg-black dark:hover:text-white hover:text-gray-900 cursor-pointer transition-colors duration-150 flex items-center gap-2"
+              className="px-6 py-3 text-gray-700    hover:bg-blue-50   hover:text-gray-900 cursor-pointer transition-colors duration-150 flex items-center gap-2"
             >
               {opt}
             </li>
