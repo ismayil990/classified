@@ -46,7 +46,7 @@ const handleToggleFavorite = (e, id) => {
 ];
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/posts/${id}`)
+    axios.get(`https://backend-kmti.onrender.com/posts/${id}`)
       .then(res => {
         setProduct(res.data);
        setLoading(false)
