@@ -5,7 +5,7 @@ const store = configureStore({
   reducer: {
     category: categoryReducer,
     posts: postsReducer,
-    // başqa sliceları buraya əlavə edə bilərsən
+   
   },
 });
 

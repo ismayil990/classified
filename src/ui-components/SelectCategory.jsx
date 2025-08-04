@@ -1,3 +1,4 @@
+import CircularProgress from '@mui/material/CircularProgress';
 import { useState, useEffect } from 'react';
 
 export default function SelectCategory({selectedItem,setSelectedItem,label, items, onClick, colorMap }) {
@@ -25,7 +26,7 @@ export default function SelectCategory({selectedItem,setSelectedItem,label, item
       >
         <div className="flex flex-col">
           {/* Title - seçiləndə yuxarı qalxır */}
-          <span
+          <span style={{ fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif` }}
             className={`text-xs text-gray-400 transition-all duration-200 ${
               selectedItem ? 'opacity-100 mb-1' : 'opacity-0 h-0'
             }`}
@@ -34,7 +35,7 @@ export default function SelectCategory({selectedItem,setSelectedItem,label, item
           </span>
 
           {/* Əsas görünən mətn */}
-          <span className="text-sm font-medium text-gray-800 ">
+          <span style={{ fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif` }} className="text-sm font-medium text-gray-800 ">
             {selectedItem || label}
           </span>
         </div>
@@ -79,7 +80,9 @@ export default function SelectCategory({selectedItem,setSelectedItem,label, item
             {/* Scroll hissəsi */}
             <div className="overflow-y-auto  noscroll max-h-[250px]">
               <ul className="divide-y divide-gray-100 ">
-                {items.map((item, index) => (
+                {items.length===0 ? <div className='flex items-center justify-center p-5'>
+                  <CircularProgress size={30}/>
+                </div> : items.map((item, index) => (
                   <li
                     key={index}
                     onClick={() => handleSelect(item)}

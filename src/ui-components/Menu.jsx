@@ -53,7 +53,7 @@ export default function CardBasedMenu() {
               `}>
                   <span className="text-lg">{item.icon}</span>
                 </div>
-                <span className="font-semibold text-lg ">{item.label}</span>
+                <span style={{ fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif` }} >{item.label}</span>
               </Link>
             </div>
           ))}
@@ -66,7 +66,7 @@ export default function CardBasedMenu() {
                 <div className="bg-green-100  p-3 rounded-xl">
                   <FaWhatsapp className="text-green-600 text-lg" />
                 </div>
-                <span className="font-semibold ">Whatsapp</span>
+                <span style={{ fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif` }}>Whatsapp</span>
               </a>
             </div>
             <div className="bg-white  rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -74,7 +74,7 @@ export default function CardBasedMenu() {
                 <div className="bg-blue-100  p-3 rounded-xl">
                   <IoIosMailUnread className="text-blue-600 text-lg" />
                 </div>
-                <span className="font-semibold ">Email</span>
+                <span style={{ fontFamily: `"Helvetica Neue", Helvetica, Arial, sans-serif` }} >Email</span>
               </a>
             </div>
           </div>

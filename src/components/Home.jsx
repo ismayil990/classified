@@ -9,7 +9,7 @@ import Posts from "./Posts";
 import SearchResult from "./SearchResult";
 import AdvancedSearch from "./AdvancedSearch";
 import Menu from "../ui-components/Menu";
-
+import banner  from "../assets/banner.jpg"
 export default function Home(){
      const openCategoryMenu = useSelector(
     (state) => state.category.openCategoryMenu
@@ -21,9 +21,9 @@ export default function Home(){
           {menuBar && <Menu/>}
           {showSearchPage && <SearchResult/>}
             <Header/>   
-            <AdvancedSearch/>      
-            <Posts/>
-            <BottomMenu />
+              <AdvancedSearch/>    
+             <Posts/>
+             <BottomMenu />
              {openCategoryMenu && (<CategorySelect/> )}
         
         </div>

@@ -1,20 +1,20 @@
-import { colors } from "./options";
+import { colors,rams } from "./options";
 
 
 export const fieldsConfig = {
   "Telefon": [
     { name: "make", label: "Marka", type: "select", options: [] },
     { name: "model", label: "Model", type: "select", options: [] },
-    { name: "ram", label: "RAM", type: "select", options: [ "2 GB","3 GB","4 GB","6 GB","8 GB","12 GB","16 GB","18 GB","24 GB"] },
-    { name: "color", label: "Rəng", type: "select", options: colors },
-    { name: "memory", label: "Yaddaş", type: "select", options: [  "16 GB","32 GB","64 GB","128 GB","256 GB","512 GB","1TB"] },
+    { name: "ram", label: "Ram", type: "select", options: rams },
+    { name: "memory", label: "Yaddaş", type: "select", options: ["1 GB","2 GB","4 GB","8 GB","16 GB","32 GB","64 GB","128 GB","256 GB", "512 GB","1 TB", "2 TB" ] },
     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
+    { name: "color", label: "Rəng", type: "select", options: colors },
   ],
   "Noutbuk": [
     { name: "make", label: "Marka", type: "select", options: [] },
      { name: "model", label: "Model", type: "select", options: [] },
-    { name: "ram", label: "RAM", type: "select", options: [ "2 GB", "3 GB","4 GB","6 GB","8 GB","12 GB","16 GB","24 GB","32 GB","48 GB","64 GB","96 GB","128 GB","192 GB","256 GB","384 GB","512 GB","1 TB",] },
-    { name: "memory", label: "Yaddaş", type: "number" },
+    { name: "ram", label: "Ram", type: "select", options: rams },
+    { name: "memory", label: "Yaddaş", type: "select",options:["40 GB", "80 GB", "120 GB", "160 GB", "250 GB", "320 GB", "500 GB", "512 GB", "1 TB", "2 TB", "4 TB", "6 TB", "8 TB", "10 TB", "12 TB", "16 TB", "18 TB", "20 TB", "24 TB", "30 TB", "32 TB"] },
     { name: "storage_type", label: "Yaddaş növü", type: "select", options: ['SSD','HDD'] },
     { name: "processor", label: "Prosessor", type: "select",options:[  
   "Intel Core i3",
@@ -40,18 +40,21 @@ export const fieldsConfig = {
   "Qualcomm Snapdragon",
   "MediaTek Kompanio",
   "NVIDIA Tegra"] },
+   { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
    { name: "color", label: "Rəng", type: "select", options: colors },
-  { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ],
   "Planşet": [
     { name: "make", label: "Marka", type: "select", options: [] },
-     { name: "model", label: "Model", type: "select", options: [] },
+    { name: "model", label: "Model", type: "select", options: [] },
+    { name: "ram", label: "Ram", type: "select", options:rams },
+    { name: "memory", label: "Yaddaş", type: "select", options: ["1 GB","2 GB","4 GB","8 GB","16 GB","32 GB","64 GB","128 GB","256 GB", "512 GB","1 TB", "2 TB" ] },
+    { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
     { name: "color", label: "Rəng", type: "select", options: colors },
-     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ],
    "Oyun konsolları": [
     { name: "make", label: "Marka", type: "select", options: [] },
     { name: "model", label: "Model", type: "select", options: [] },
+     { name: "memory", label: "Yaddaş", type: "select", options: ["20 GB", "40 GB", "60 GB", "80 GB", "120 GB", "160 GB", "250 GB", "320 GB", "500 GB", "825 GB", "1 TB", "2 TB", "4 TB", "8 TB"] },
     { name: "status", label: "Məhsulun vəziyyəti", type: "select", options: ["Yeni","İkinci əl"] },
   ]
 };

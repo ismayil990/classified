@@ -41,9 +41,9 @@ export default function PostCard({ post }) {
            <RiVipCrownFill size={20} className="text-red-500 border-0"/>
           </span> : null}
       </div>
-      <div className="p-4 bg-white  backdrop-blur-sm">
-        <p className="text-lg font-bold text-black/70 mb-1">{post.price} Azn</p>
-        <p className="text-sm text-black/70 font-bold line-clamp-2 mb-2 leading-[20px] line-clamp-2">{post.post_title}</p>
+      <div className="p-4 bg-white   backdrop-blur-sm product-detail">
+        <p className="text-[18px] font-bold text-[rgb(33, 44, 58)] mb-1">{post.price} Azn</p>
+        <p className="text-sm text-[rgb(33, 44, 58)] font-400 line-clamp-2 mb-2 leading-[20px] line-clamp-2">{post.post_title}</p>
       <div className="flex justify-between">
           <p className="text-xs text-black/50 font-medium ">{post.city}</p>
           <p className="text-xs text-black/50 font-medium ">{formatRelativeDate(post.createdAt)}</p>
@@ -56,7 +56,7 @@ function formatRelativeDate(dateString) {
   const now = new Date();
   const inputDate = new Date(dateString);
 
-  // Saat fərqini gün olaraq hesabla
+  
   const diffTime = now - inputDate;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 

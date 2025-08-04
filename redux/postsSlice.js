@@ -47,6 +47,7 @@ const postsSlice = createSlice({
     posts: [],
     searchResults:[],
     loading: false,
+    search_loading:false,
     error: null,
     showSearchPage:false,
   },
@@ -82,11 +83,11 @@ closeSearch:(state) => {
       state.error = action.payload;
     })
     .addCase(searchPosts.pending, (state) => {
-      state.loading = true;
+      state.search_loading = true;
       state.error = null;
     })
     .addCase(searchPosts.fulfilled, (state, action) => {
-      state.loading = false;
+      state.search_loading = false;
       state.searchResults = action.payload; 
       if(action.payload.length <= 0){
         toast.info("Nəticə tapılmadı")
@@ -98,7 +99,7 @@ closeSearch:(state) => {
      
     })
     .addCase(searchPosts.rejected, (state, action) => {
-      state.loading = false;
+      state.search_loading = false;
       state.error = action.payload;
     });
 }

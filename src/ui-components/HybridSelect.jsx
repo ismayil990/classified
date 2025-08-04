@@ -12,7 +12,7 @@ const HybridSelect = ({ options, onChange, disabled, value = "" }) => {
   const showLabel = isFocused || inputValue;
 
   useEffect(() => {
-    setInputValue(value || ""); // ✅ dışarıdan gələn dəyər dəyişəndə inputValue-ni yenilə
+    setInputValue(value || ""); 
   }, [value]);
 
   useEffect(() => {
