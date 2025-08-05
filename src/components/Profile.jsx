@@ -75,12 +75,14 @@ export default function UserProfile() {
               <p className="text-sm text-black/50">{user?.email}</p>
               <p className="text-sm text-black/50">{user?.contact}</p>
             </div>
+
             <button
               onClick={() => setShowDeleteAccountModal(true)}
               className="p-2 bg-white hover:bg-red-50 text-red-600 rounded-lg border border-red-600 font-medium text-center w-[200px]"
             >
               Hesabı sil
             </button>
+        
           </div>
 
           {/* Navigation */}

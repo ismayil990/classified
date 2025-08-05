@@ -324,16 +324,16 @@ const handleToggleFavorite = (e, id) => {
       <div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
   {productFields.map(({ key, label }) => (
     product[key] ? (
-      <div key={key} className="flex justify-between bg-slate-50 p-4 rounded-xl border-l-[2px] border-blue-600">
+      <div key={key} className="flex justify-between  bg-slate-50 p-4 rounded-xl border-l-[2px] border-blue-600">
         <p className="text-slate-600 text-sm font-medium">{label}</p>
-        <p className="text-slate-800 font-bold">{product[key]}</p>
+        <p className="text-slate-800 font-bold text-end">{product[key]}</p>
       </div>
     ) : null
   ))}
 </div>
             </div>
 
-            {/* Seller Information */}
+        
             <div className="bg-white rounded-3xl p-6  space-y-4">
               <h3 className="text-xl font-bold text-slate-800 mb-4">Satıcı məlumatları</h3>
               
@@ -342,8 +342,9 @@ const handleToggleFavorite = (e, id) => {
                     <span className="text-white text-lg"><User className="text-blue-600"/></span>
                   </div>
                   <div>
-                    <p className="text-slate-600 text-sm font-medium">Satıcının adı</p>
                     <p className="text-slate-800 font-semibold">{product.name}</p>
+                    <Link to={`/userposts/${product.user}`} className="text-blue-600 text-sm font-medium">İstifadəçinin bütün elanları
+                    </Link>
                   </div>
                 </div>
               
@@ -355,7 +356,7 @@ const handleToggleFavorite = (e, id) => {
               
                   <div onClick={()=>{makeCall()}}>
                     <p className="text-slate-600 text-sm font-medium">Telefon</p>
-                    <p className="text-blue-500 font-semibold">{product.contact}</p>
+                    <p className="text-blue-500 font-semibold cursor-pointer">{product.contact}</p>
                   </div>
                 </div>
                 

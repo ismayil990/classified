@@ -40,7 +40,6 @@ export default function PhoneInput({ prefix, setPrefix, contact, setContact }) {
         value={contact}
         onChange={(e) => {
           const val = e.target.value;
-          // sadəcə rəqəm və maksimum 7 simvol qəbul etsin
           if (/^\d{0,7}$/.test(val)) {
             setContact(val);
           }

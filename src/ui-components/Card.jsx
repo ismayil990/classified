@@ -25,15 +25,15 @@ export default function PostCard({ post }) {
         <img
           src={post.images[0]}
           alt={post.title}
-          className="w-full h-full object-contain"
+          className="w-full h-full object-cover"
         />
        
           <Heart  className={` absolute top-2 right-2  w-[25px] h-[25px] ${favorites.includes(post._id) ? "text-red-600" : "text-gray-500"} `} onClick={(e)=>{handleFavoriteClick(e,post._id)}} fill={favorites.includes(post._id) ? "red" : "slate"} />
       
         {post.status === "Yeni" ? 
-          <span className="absolute z-[1] top-[53%] translate-y-[-50%]  left-0 bg-gradient-to-r from-blue-400 to-blue-500 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
+          <span className="absolute z-[1]  top-[53%] max-[450px]:top-[50%] translate-y-[-50%]  left-0 bg-gradient-to-r from-blue-400 to-blue-500 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
            YENİ
-          </span> :  <span className="absolute z-[1] top-[55%] translate-y-[-50%]  left-0 bg-red-600 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
+          </span> :  <span className="absolute z-[1] top-[53%] max-[450px]:top-[50%] translate-y-[-50%]  left-0 bg-red-600 text-white text-xs rounded-r-[5px] px-3 py-1 font-bold shadow-lg">
            İkinci əl
           </span> 
         }
@@ -41,12 +41,17 @@ export default function PostCard({ post }) {
            <RiVipCrownFill size={20} className="text-red-500 border-0"/>
           </span> : null}
       </div>
-      <div className="p-4 bg-white   backdrop-blur-sm product-detail">
-        <p className="text-[18px] font-bold text-[rgb(33, 44, 58)] mb-1">{post.price} Azn</p>
-        <p className="text-sm text-[rgb(33, 44, 58)] font-400 line-clamp-2 mb-2 leading-[20px] line-clamp-2">{post.post_title}</p>
-      <div className="flex justify-between">
+      <div className="p-4 bg-white h-[120px] flex flex-col justify-between backdrop-blur-sm product-detail">
+     
+      <div className="flex flex-col justify-start">
+          <p className="text-[18px] font-bold text-[rgb(33, 44, 58)] mb-1">{post.price} Azn</p>
+        <p className="text-sm  text-[rgb(33, 44, 58)] font-400 line-clamp-2  mb-2 leading-[15px] line-clamp-2 ">{post.post_title}</p>
+      </div>
+     
+      <div className="flex justify-between items-center">
           <p className="text-xs text-black/50 font-medium ">{post.city}</p>
           <p className="text-xs text-black/50 font-medium ">{formatRelativeDate(post.createdAt)}</p>
+      
       </div>
       </div>
     </Link>

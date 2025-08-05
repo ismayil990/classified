@@ -16,6 +16,8 @@ import Stores from './components/Stores.jsx';
 import AdvancedSearch from './components/AdvancedSearch.jsx';
 import About from './components/About.jsx';
 import Terms from './components/Terms.jsx';
+import UserPosts from './components/UserPosts.jsx';
+
 
 
 function PrivateRoute({ children }) {
@@ -31,6 +33,7 @@ function App() {
      const hideBottomMenu =
   location.pathname.startsWith('/payment/') ||
   location.pathname.startsWith('/product/') ||
+  location.pathname.startsWith('/userposts/') ||
   location.pathname.startsWith('/advanced') ||
   location.pathname.startsWith('/yeni') ||
   location.pathname.startsWith('/haqqimizda') ||
@@ -46,6 +49,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/yeni" element={<PostForm />}/>
             <Route path="/product/:id" element={<ProductDetail/>} />
+            <Route path="/userposts/:id" element={<UserPosts/>} />
             <Route path="/user" element={<UserProfile/>} />
             <Route path="/fetch" element={<Fetch/>} />
             <Route path="/favorites" element={<Favorites/>} />

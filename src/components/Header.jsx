@@ -45,6 +45,7 @@ export default function Header() {
           </div>
           <h1 className="text-black  font-bold text-2xl max-[400px]:text-xl">Mobitex</h1>
         </div>
+      
       </div>
     
 <div className="flex max-[643px]:hidden items-center gap-[15px]">
