@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 import SelectCategory from "../ui-components/SelectCategory";
 import PageHeader from "../ui-components/PageHeader";
 import Button from "../ui-components/Button";
-import { fieldsConfig } from "../../data/fieldsconfig";
 import { colorMap, locations } from "../../data/options";
 import Input from "../ui-components/Input";
 import Textarea from "../ui-components/Textarea";
 import MultiImageUpload from "../ui-components/ImageUpload";
 import { CarFront, LaptopMinimal, Smartphone } from "lucide-react";
-import PhoneInput from "../ui-components/PhoneInput";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -38,20 +35,16 @@ function removeBrandFromModel(model, brand) {
 
   return model;
 }
-const isValidEmail = (email) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
+
 
 export default function PostForm() {
   const [formState, setFormState] = useState({ category: "", images: [] });
   const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
-  const [prefix, setPrefix] = useState("050");
-  const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
 const [selectedItem, setSelectedItem] = useState(null);
+ const [fields, setFields] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -63,6 +56,17 @@ const [selectedItem, setSelectedItem] = useState(null);
   const selectedCategory = categories.find((cat) => cat.name === formState.category);
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
   const models = selectedCategory?.brands.find((b) => b.name === formState.brand)?.models || [];
+
+   
+
+useEffect(() => {
+  if (selectedCategory) {
+    axios.get(`https://backend-kmti.onrender.com/getFields?selectedCategory=${selectedCategory.name}`)
+      .then(res => setFields(res.data))
+      .catch(err => console.error(err));
+  }
+  console.log(fields)
+}, [selectedCategory]);
 
   const isAutoTitleCategory = (cat) => {
     return cat === "Telefon" || cat === "Noutbuk" || cat === "Oyun konsolları";
@@ -130,43 +134,19 @@ const [selectedItem, setSelectedItem] = useState(null);
 
   
 
-  const sendOtp = async () => {
+  const handleSubmit = async (e) => {
     setLoading(true);
+    e.preventDefault();
+
     const newErrors = {};
     if (!formState.category) newErrors.category = "Kateqoriya seçilməyib";
     if (!formState.brand) newErrors.brand = "Marka seçilməyib";
     if (!formState.model) newErrors.model = "Model seçilməyib";
     if (!formState.price) newErrors.price = "Qiymət boş ola bilməz";
     if (!formState.description) newErrors.description = "Açıqlama boş ola bilməz";
-    if (!formState.contact) newErrors.contact = "Nömrə daxil edin";
-    if (!formState.email || !isValidEmail(formState.email)) {
-    newErrors.email = "Düzgün email daxil edin";
-  }
-    setErrors(newErrors);
+
+     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      await axios.post("https://backend-kmti.onrender.com/send-otp", {
-        contact: `+994${prefix.slice(1)}${formState.contact}`,
-      });
-      toast.success("Təsdiq kodu nömrəyə göndərildi");
-      setStep(2);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      toast.error("OTP göndərilərkən xəta baş verdi.");
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    setLoading(true);
-    e.preventDefault();
-
-    if (!otp) {
-      setErrors({ otp: "OTP kodunu daxil edin" });
       setLoading(false);
       return;
     }
@@ -176,8 +156,6 @@ const [selectedItem, setSelectedItem] = useState(null);
     Object.keys(formState).forEach((key) => {
       if (key === "images") {
         formState.images.forEach((file) => formData.append("images", file));
-      } else if (key === "contact") {
-        formData.append("contact", `+994${prefix.slice(1)}${formState.contact}`);
       } else if (key === "price") {
         formData.append("price", formState.price ? formState.price.toString() : "");
       } else if (Array.isArray(formState[key])) {
@@ -187,11 +165,13 @@ const [selectedItem, setSelectedItem] = useState(null);
       }
     });
 
-    formData.append("otp", otp);
 
     try {
-      const res = await axios.post("https://backend-kmti.onrender.com/posts", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      const token = localStorage.getItem("token");
+      const res = await axios.post("http://localhost:3001/posts", formData, {
+        headers: { 
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`, },
       });
 
       toast.success("Elan göndərildi!");
@@ -216,8 +196,7 @@ const [selectedItem, setSelectedItem] = useState(null);
       <PageHeader title="Yeni elan" />
 
       <div className="w-full flex flex-col gap-[30px] items-center justify-center">
-        {step === 1 ? (
-          <form className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
+          <form onSubmit={handleSubmit} className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5">
             <SelectCategory
               label="Kateqoriya seçin"
               items={categories.map((cat) => cat.name)}
@@ -231,7 +210,7 @@ const [selectedItem, setSelectedItem] = useState(null);
 
             {formState.category && (
               <div className="flex flex-col gap-5">
-                {fieldsConfig[selectedCategory?.name]?.map((field, index) => {
+                {fields?.map((field, index) => {
                   if (field.name === "make") {
                     return (
                       <div>
@@ -342,56 +321,17 @@ const [selectedItem, setSelectedItem] = useState(null);
                   value={formState.images}
                   onChange={(files) => handleChange("images", files)}
                 />
-                <Input
-                  type="text"
-                  placeholder="Adınız"
-                  value={formState.name || ""}
-                  onChange={(e) => handleChange("name", e.target.value)}
-                />
-                <PhoneInput
-                  prefix={prefix}
-                  setPrefix={setPrefix}
-                  contact={formState.contact || ""}
-                  setContact={(val) => handleChange("contact", val)}
-                />
-                {errors.contact && <p className="text-red-500 text-sm">{errors.contact}</p>}
-                <Input
-                  type="email"
-                  placeholder="Email"
-                  value={formState.email || ""}
-                  onChange={(e) => handleChange("email", e.target.value)}
-                />
-                        {errors.email && (
-    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-  )}
 
                 <Button
                   text={loading ? <CircularProgress size={15} className="text-white" /> : "Elanı göndər"}
-                  type="button"
-                  onClick={sendOtp}
+                  type="submit"
+            
                 />
               </div>
             )}
           </form>
-        ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col w-[60%] max-w-full max-[599px]:w-11/12 gap-5"
-          >
-            <Input
-              type="text"
-              placeholder="OTP kodunu daxil edin"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            />
-            {errors.otp && <p className="text-red-500 text-sm">{errors.otp}</p>}
-            <Button
-              text={loading === true ? <CircularProgress size={15} className="text-white" /> : "Təsdiqlə"}
-              type="submit"
-            />
-          </form>
-        )}
-         <p className="text-gray-600 p-4 text-center">Elanı dərc etməklə, siz Mobitex platformasının istifadə şərtlərini və qaydalarını qəbul etmiş sayılırsınız.</p>
+       
+  
       </div>
     </div>
   );

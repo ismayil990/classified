@@ -1,19 +1,13 @@
 import { useNavigate, useParams,Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Share2,Phone,User,Mail,Heart, Flag } from 'lucide-react';
 import Loader from "../ui-components/Loader";
-import { IncreaseCallCount } from "../../functions/increaseCallCount";
-import ImageGallery from "../ui-components/ImageGallery";
-import ReportModal from "../ui-components/ReportModal"; 
 import PageHeader from "../ui-components/PageHeader";
 import PostCard from "../ui-components/Card";
 
 export default function UserPosts() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-const [isReportOpen, setIsReportOpen] = useState(false);
   const [posts,setPosts]=useState(null)
   const [user,setUser]=useState(null)
   const [open,setOpen]=useState(false)
@@ -27,7 +21,7 @@ const [isReportOpen, setIsReportOpen] = useState(false);
 
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/userposts/${id}`)
+    axios.get(`https://backend-kmti.onrender.com/userposts/${id}`)
       .then(res => {
         setPosts(res.data.posts);
         setUser(res.data.user)

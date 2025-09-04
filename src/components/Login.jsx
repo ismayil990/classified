@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/authContext";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import PhoneInput from "../ui-components/PhoneInput";
 import {toast} from "react-toastify"
 import PageHeader from "../ui-components/PageHeader";
+import Input from "../ui-components/Input";
+
+
+
+const isValidEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+
 export default function Login() {
   const { login, token } = useAuth();
-  const [prefix, setPrefix] = useState("050");
-  const [contact, setContact] = useState("");
+const [email,setEmail]=useState("")
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -17,17 +26,16 @@ export default function Login() {
 
   useEffect(() => {
     if (token && location.pathname === "/login") {
-      navigate("/dashboard");
+      navigate("/dashboard",{ replace: true });
     }
-  }, [token, navigate, location.pathname]);
+  }, [token]);
 
  const sendOtp = async () => {
-  if (!contact) return toast.error("Nömrəni daxil et");
+  if (!isValidEmail(email)) return toast.error("Düzgün email daxil et");
   try {
     setLoading(true);
-    const fullContact = `+994${prefix.slice(1)}${contact}`;
-    await axios.post("https://backend-kmti.onrender.com/send-otp-number", { contact: fullContact });
-    toast.success("OTP göndərildi!");
+    await axios.post("https://backend-kmti.onrender.com/send-otp", { email: email });
+    toast.success("Təsdiqləmə kodu email hesabına göndərildi!");
     setStep(2);
   } catch (err) {
     toast.error(err.response?.data?.message || "Xəta baş verdi");
@@ -40,9 +48,9 @@ const verifyOtp = async () => {
   if (!otp) return alert("OTP-ni daxil et");
   try {
     setLoading(true);
-    const fullContact = `+994${prefix.slice(1)}${contact}`;
+  
     const res = await axios.post("https://backend-kmti.onrender.com/verify-otp", {
-      contact: fullContact,
+  email:email,
       otp,
     });
     login(res.data.token);
@@ -55,18 +63,18 @@ const verifyOtp = async () => {
 };
 
   return (
-    <div className="flex flex-col gap-5 w-full">
-  <PageHeader title="Giriş et"/>
+   
 
-     <div className="flex flex-col items-center justify-center gap-[20px] pt-[90px]">
-       {step === 1 && (
-        <div className="flex flex-col gap-[20px]">
-        <h2 className="text-[15px] text-gray-400 font-bold text-center">Mobil nömrənizi daxil edin</h2>
-          <PhoneInput
-            prefix={prefix}
-            setPrefix={setPrefix}
-            contact={contact}
-            setContact={setContact}
+     <div className="w-full bg-gray-50 p-2 max-[450px]:p-0 h-[100vh] flex flex-col items-center justify-center">
+       <PageHeader title="Giriş et"/>
+      <div className="w-auto bg-white max-[450px]:pt-[80px] max-[450px]:w-full max-[450px]:h-full">
+        {step === 1 && (
+        <div className="flex flex-col  bg-white rounded-[10px] gap-[20px] p-6 w-full">
+          <Input
+            type="text"
+                placeholder="Email ünanınızı daxil edin"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
           />
           <button
             onClick={sendOtp}
@@ -75,11 +83,14 @@ const verifyOtp = async () => {
           >
             {loading ? "Göndərilir..." : "OTP Göndər"}
           </button>
+           <div className="w-full flex justify-center items-center p-6">
+             <p>Hesabınız yoxdur? <Link to="/register" className="text-blue-600">Qeydiyyat</Link></p>
+           </div>
         </div>
       )}
 
       {step === 2 && (
-        <div className="flex flex-col gap-[20px]">
+        <div className="flex flex-col gap-[20px] bg-white rounded-[10px] w-full p-6">
         <h2 className="text-[15px] text-gray-400 font-bold text-center">Təsdiqləmə kodunu daxil edin</h2>
           <input
             type="text"
@@ -98,6 +109,7 @@ const verifyOtp = async () => {
         </div>
       )}
      </div>
-    </div>
+     </div>
+   
   );
 }

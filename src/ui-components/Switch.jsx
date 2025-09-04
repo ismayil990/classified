@@ -11,7 +11,7 @@ export default function Switch({ defaultChecked = false, onChange }) {
 
   return (
   <div className="flex items-center justify-between h-[50px] bg-white  border border-gray-200  rounded-lg px-6 py-4 cursor-pointer transition-all duration-200" >
-    <span>Yeni?</span>
+    <span>Mağazada satılır?</span>
       <button
     type="button"
       onClick={toggle}

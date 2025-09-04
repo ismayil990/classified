@@ -1,13 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Plus, User, Heart, Menu,SlidersHorizontal } from "lucide-react";
+import { Plus, User, Heart, Menu} from "lucide-react";
 import { useDispatch } from "react-redux";
-import { toggleCategorySheet} from "../../redux/slice";
-import categoryIcon from "../assets/category.png";
-import SearchProduct from "../ui-components/SearchProduct";
 import { BiCategoryAlt } from "react-icons/bi";
 import { openCategorySheet,openMenu } from "../../redux/slice";
-import axios from "axios";
 export default function Header() {
   const dispatch = useDispatch();
   const [showHeader, setShowHeader] = useState(true);
@@ -55,7 +51,7 @@ export default function Header() {
         <Link to="/favorites" className="rounded-[7px] flex items-center justify-center p-[8px] cursor-pointer  transition-all duration-300">
           <Heart className="text-gray-600  w-5 h-5" />
         </Link>
-        <Link to="/login" className=" rounded-[7px] flex items-center justify-center p-[8px] cursor-pointer  transition-all duration-300">
+        <Link to="/register" className=" rounded-[7px] flex items-center justify-center p-[8px] cursor-pointer  transition-all duration-300">
           <User className="text-gray-600  w-5 h-5" />
         </Link>
         <Link to="/yeni">

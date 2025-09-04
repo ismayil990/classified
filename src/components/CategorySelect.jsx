@@ -7,6 +7,7 @@ import { closeCategorySheet } from "../../redux/slice";
 import { changeCategory } from "../../redux/slice";
 import CircularProgress from '@mui/material/CircularProgress';
 import { getCategories } from "../../redux/slice";
+import { LuGamepad2 } from "react-icons/lu";
 export default function CategorySelect({ setCategoryName }) {
   const { openCategoryMenu,categoryName,loading,categories } = useSelector((state) => state.category);
   const [animationClass, setAnimationClass] = useState("animate-slideUp");

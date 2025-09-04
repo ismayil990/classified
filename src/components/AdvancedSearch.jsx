@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Undo2, SlidersHorizontal } from "lucide-react";
-
+import axios from "axios";
 
 import SelectCategory from "../ui-components/SelectCategory";
 import Input from "../ui-components/Input";
 import Button from "../ui-components/Button";
-import { fieldsConfig } from "../../data/fieldsconfig";
 import { colorMap, locations } from "../../data/options";
 import HybridSelect from "../ui-components/HybridSelect";
 import { searchPosts } from "../../redux/postsSlice";
@@ -26,7 +25,7 @@ export default function AdvancedSearch() {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const {search_loading}=useSelector(state=>state.posts)
-
+ const [fields, setFields] = useState([]);
   const { categories } = useSelector((state) => state.category);
 
   useEffect(() => {
@@ -36,6 +35,16 @@ export default function AdvancedSearch() {
   const selectedCategory = categories.find((cat) => cat.name === formState.category);
   const brands = selectedCategory?.brands.map((b) => b.name) || [];
   const models = selectedCategory?.brands.find((b) => b.name === formState.brand)?.models || [];
+
+  useEffect(() => {
+    if (selectedCategory) {
+      axios.get(`https://backend-kmti.onrender.com/getFields?selectedCategory=${selectedCategory.name}`)
+        .then(res => setFields(res.data))
+        .catch(err => console.error(err));
+    }
+    console.log(fields)
+  }, [selectedCategory]);
+
 
 const handleChange = (field, value) => {
   setFormState((prev) => {
@@ -88,7 +97,7 @@ const handleChange = (field, value) => {
           setSelectedItem={setSelectedItem}
         />
 
-        {fieldsConfig[formState.category]?.map((field, index) => {
+        {fields?.map((field, index) => {
           const allowedFields = ["make", "model", "ram", "memory", "status", "barter"];
           if (!allowedFields.includes(field.name)) return null;
 

@@ -113,17 +113,17 @@ export const memory=[
   "16 GB",
   "18 GB",
   "24 GB",
-  "32GB",
-  "48GB",
-  "64GB",
-  "96GB",
-  "128GB",
-  "192GB",
-  "256GB",
-  "512GB",
-  "1TB",
-  "1.5TB",
-  "2TB"
+  "32 GB",
+  "48 GB",
+  "64 GB",
+  "96 GB",
+  "128 GB",
+  "192 GB",
+  "256 GB",
+  "512 GB",
+  "1 TB",
+  "1.5 TB",
+  "2 TB"
 ];
 
 export const colorMap = {

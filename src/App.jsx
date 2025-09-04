@@ -1,14 +1,11 @@
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import {  Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../context/authContext.jsx';
-import Header from './components/Header';
 import PostForm from './components/Newpost.jsx';
 import Home from './components/Home.jsx';
-import Dashboard from './components/Dashboard.jsx';
 import Login from './components/Login.jsx';
 import ProductDetail from './components/ProductDetail.jsx';
 import BottomMenu from './components/BottomMenu.jsx';
 import UserProfile from './components/Profile.jsx';
-import Profile from './components/Profile.jsx';
 import Fetch from './components/profile-pages/fetchpage.jsx';
 import PaymentPage from './components/payment/PaymentPage.jsx';
 import Favorites from './components/Favorites.jsx';
@@ -17,6 +14,8 @@ import AdvancedSearch from './components/AdvancedSearch.jsx';
 import About from './components/About.jsx';
 import Terms from './components/Terms.jsx';
 import UserPosts from './components/UserPosts.jsx';
+import Register from './components/Register.jsx';
+
 
 
 
@@ -37,6 +36,8 @@ function App() {
   location.pathname.startsWith('/advanced') ||
   location.pathname.startsWith('/yeni') ||
   location.pathname.startsWith('/haqqimizda') ||
+  location.pathname.startsWith('/login') ||
+   location.pathname.startsWith('/register') ||
   location.pathname.startsWith('/qaydalar');
 
 
@@ -46,8 +47,8 @@ function App() {
         <div className='w-full'>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/yeni" element={<PostForm />}/>
+            <Route path="/register" element={<Register/>}/>
+            <Route path='/login' element={<Login/>}/>
             <Route path="/product/:id" element={<ProductDetail/>} />
             <Route path="/userposts/:id" element={<UserPosts/>} />
             <Route path="/user" element={<UserProfile/>} />
@@ -58,6 +59,14 @@ function App() {
              <Route path='/haqqimizda' element={<About/>}/>
              <Route path='/qaydalar' element={<Terms/>}/>
             <Route path="/payment/:id" element={<PaymentPage/>} />
+                <Route
+              path="/yeni"
+              element={
+                <PrivateRoute>
+                  <PostForm/>
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/dashboard"
               element={
